@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /scripts/{document} {
+      // Solo usuarios autenticados pueden leer
+      allow read: if request.auth != null;
+      // Solo usuarios autenticados pueden crear
+      allow create: if request.auth != null;
+      // Solo usuarios autenticados pueden actualizar y eliminar
+      allow update, delete: if request.auth != null;
+    }
+  }
+}
