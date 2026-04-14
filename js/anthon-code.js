@@ -7,7 +7,9 @@ import { setupExpandEditor } from './modules/editor-expand.js';
 import { setupFileImport } from './modules/import-file.js';
 import { setupGistImport } from './modules/import-gist.js';
 import { showNotification } from './modules/ui-modal.js';
-
+// ========== ESTADO DEL FILTRO ==========
+let currentCategory = 'all';
+let isShowingFavorites = false;
 // ========== INICIALIZACIÓN ==========
 function init() {
     initializeFirebase();
@@ -32,7 +34,7 @@ function init() {
     setupNavigation();
     setupFormSubmits();
     setupModalClose();
-    setupFilters();
+
     
     // Cargar scripts
     loadScripts('all');
@@ -42,13 +44,6 @@ function init() {
         setupInactivityMonitoring();
     }
     
-    // Recargar scripts cuando cambien favoritos
-    document.addEventListener('favoritesChanged', () => {
-        loadScripts(document.getElementById('language-filter').value);
-    });
-    document.addEventListener('scriptsReload', () => {
-        loadScripts(document.getElementById('language-filter').value);
-    });
 }
 
 function setupNavigation() {
@@ -83,14 +78,17 @@ function showSection(section) {
     if (section === 'scripts') {
         document.getElementById('scripts-section').style.display = 'block';
         document.getElementById('view-scripts-link').classList.add('active');
-        loadScripts(document.getElementById('language-filter').value);
+        isShowingFavorites = false;
+        loadScripts(currentCategory, '', false);
     } else if (section === 'add-script') {
         document.getElementById('add-script-section').style.display = 'block';
         document.getElementById('add-script-link').classList.add('active');
+        isShowingFavorites = false;
     } else if (section === 'favorites') {
         document.getElementById('scripts-section').style.display = 'block';
         document.getElementById('favorites-link')?.classList.add('active');
-        loadScripts('all', '', true);
+        isShowingFavorites = true;
+        loadScripts(currentCategory, '', true);
     }
 }
 
@@ -126,7 +124,6 @@ function setupFormSubmits() {
             document.getElementById('script-title').value = '';
             document.getElementById('script-author').value = '';
             document.getElementById('script-notes').value = '';
-            loadScripts(document.getElementById('language-filter').value);
             setTimeout(() => showSection('scripts'), 2000);
         } catch (error) {
             status.textContent = 'Error al guardar';
@@ -136,7 +133,17 @@ function setupFormSubmits() {
             submitBtn.textContent = originalText;
         }
     });
+    // ========== FILTRO POR LENGUAJE (desde el popup) ==========
+document.addEventListener('filterChange', (e) => {
+    const category = e.detail.category;
+    console.log('Filtrando por:', category); // Para depurar
     
+    // Guardar categoría actual
+    currentCategory = category;
+    
+    // Recargar scripts con la nueva categoría
+    loadScripts(currentCategory, '', isShowingFavorites);
+});
     document.getElementById('edit-script-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = document.querySelector('#edit-script-form button[type="submit"]');
@@ -165,7 +172,6 @@ function setupFormSubmits() {
             await updateScript(id, title, author, notes, category, content);
             status.textContent = 'Script actualizado';
             status.className = 'success';
-            loadScripts(document.getElementById('language-filter').value);
             setTimeout(() => showSection('scripts'), 2000);
         } catch (error) {
             status.textContent = 'Error al actualizar';
@@ -187,11 +193,6 @@ function setupModalClose() {
     });
 }
 
-function setupFilters() {
-    document.getElementById('language-filter').addEventListener('change', function() {
-        loadScripts(this.value);
-    });
-}
 
 // Iniciar
 init();

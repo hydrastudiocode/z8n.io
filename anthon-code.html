@@ -51,31 +51,18 @@
                 <img src="assets/logowar.png" alt="Anthon Code Logo" class="app-logo">
                 <h1 class="app-title">Anthon Code 1.0.1</h1>
             </div>
-            <div class="header-controls">
-                <div class="custom-select-wrapper">
-                    <select id="language-filter" class="custom-select">
-                        <option value="all" data-icon="assets/logowar.png">General</option>
-                        <option value="C" data-icon="assets/c.png">C</option>
-                        <option value="C#" data-icon="assets/c2.png">C#</option>
-                        <option value="C++" data-icon="gif/mine3.gif">C++</option>
-                        <option value="JavaScript" data-icon="assets/JavaScript.png">JavaScript</option>
-                        <option value="FireBase" data-icon="assets/fire.png">FireBase</option>
-                        <option value="Python" data-icon="assets/python.png">Python</option>
-                        <option value="PHP" data-icon="assets/php.png">PHP</option>
-                        <option value="GdScript" data-icon="gif/mine.gif">Gd Script</option>
-                        <option value="HTML" data-icon="gif/mine2.gif">HTML</option>
-                        <option value="CSS" data-icon="gif/abeja.gif">CSS</option>
-                        <option value="Otro" data-icon="gif/linux.gif">Apuntes</option>
-                    </select>
-                </div>
-            </div>
         </div>
         <nav>
             <a href="#" id="view-scripts-link" class="active">Ver Scripts</a>
             <a href="#" id="add-script-link">Agregar Script</a>
-            <a href="#" id="favorites-link" class="icon-btn github-btn fas fa-star"></a>
+            <a href="#" id="favorites-link" class="favorites-nav"><i class="fas fa-star"></i> Favoritos</a>
         </nav>
         <div class="header-actions">
+            <!-- BOTÓN FILTROS - ABRE EL POPUP -->
+            <button id="filter-btn" class="icon-btn filter-btn">
+                <i class="fas fa-filter"></i>
+                <span>Filtrar</span>
+            </button>
             <a href="https://github.com/hydrastudiocode/Anthon-Code" class="icon-btn github-btn" id="github-link">
                 <i class="fab fa-github"></i>
                 <span>GitHub</span>
@@ -87,35 +74,125 @@
         </div>
     </header>
 
+    <!-- POPUP DE FILTROS -->
+    <div id="filter-popup" class="filter-popup">
+        <div class="filter-header">
+            <h3><i class="fas fa-code-branch"></i> Filtrar por lenguaje</h3>
+            <button id="close-filter" class="close-filter">&times;</button>
+        </div>
+        <div class="filter-buttons" id="filter-buttons">
+            <!-- Los botones se generarán con JavaScript -->
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const languageFilter = document.getElementById('language-filter');
-            if (languageFilter) {
-                languageFilter.addEventListener('change', function() {
-                    const selectedOption = this.options[this.selectedIndex];
-                    const iconUrl = selectedOption.getAttribute('data-icon');
-                    if (iconUrl) {
-                        this.style.backgroundImage = `url(${iconUrl})`;
-                        this.style.backgroundRepeat = 'no-repeat';
-                        this.style.backgroundPosition = '10px center';
-                        this.style.backgroundSize = '20px';
-                    }
+            // ========== DATOS DE LENGUAJES ==========
+    const languages = [
+        { id: 'all', name: 'General', icon: 'assets/logowar.png', color: '#6c757d', isImage: true },
+        { id: 'C', name: 'C', icon: 'assets/c.png', color: '#00599C', isImage: true },
+        { id: 'C#', name: 'C#', icon: 'assets/c2.png', color: '#68217A', isImage: true },
+        { id: 'C++', name: 'C++', icon: 'assets/c3.png', color: '#00599C', isImage: true },
+        { id: 'JavaScript', name: 'JavaScript', icon: 'assets/JavaScript.png', color: '#f7df1e', isImage: true },
+        { id: 'Python', name: 'Python', icon: 'assets/python.png', color: '#3776AB', isImage: true },
+        { id: 'PHP', name: 'PHP', icon: 'assets/php.png', color: '#777BB4', isImage: true },
+        { id: 'GdScript', name: 'GdScript', icon: 'assets/gd.png', color: '#478CBF', isImage: true },
+        { id: 'HTML', name: 'HTML', icon: 'assets/html.png', color: '#E34F26', isImage: true },
+        { id: 'CSS', name: 'CSS', icon: 'assets/css.png', color: '#1572B6', isImage: true },
+        { id: 'FireBase', name: 'FireBase', icon: 'assets/fire.png', color: '#FFCA28', isImage: true },
+        { id: 'Otro', name: 'Apuntes', icon: 'assets/logowar.png', color: '#9e9e9e', isImage: true }
+    ];
+
+            // ========== GENERAR BOTONES DE FILTRO ==========
+            const filterButtonsContainer = document.getElementById('filter-buttons');
+          function generateFilterButtons() {
+    filterButtonsContainer.innerHTML = '';
+    languages.forEach(lang => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-lang-btn';
+        btn.setAttribute('data-lang', lang.id);
+        btn.style.borderLeftColor = lang.color;
+        
+        if (lang.isImage) {
+            // Usar imagen personalizada
+            btn.innerHTML = `
+                <img src="${lang.icon}" alt="${lang.name}" style="width: 20px; height: 20px; object-fit: contain;">
+                <span>${lang.name}</span>
+            `;
+        } else {
+            // Usar icono de Font Awesome
+            btn.innerHTML = `
+                <i class="${lang.icon}" style="color: ${lang.color};"></i>
+                <span>${lang.name}</span>
+            `;
+        }
+        
+        btn.addEventListener('click', () => {
+            const event = new CustomEvent('filterChange', { detail: { category: lang.id } });
+            document.dispatchEvent(event);
+            document.getElementById('filter-popup').classList.remove('show');
+            document.querySelectorAll('.filter-lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+        
+        filterButtonsContainer.appendChild(btn);
+    });
+}
+            generateFilterButtons();
+
+            // ========== POPUP DE FILTROS ==========
+            const filterBtn = document.getElementById('filter-btn');
+            const filterPopup = document.getElementById('filter-popup');
+            const closeFilter = document.getElementById('close-filter');
+            
+            if (filterBtn) {
+                filterBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    filterPopup.classList.toggle('show');
                 });
-                languageFilter.dispatchEvent(new Event('change'));
             }
             
+            if (closeFilter) {
+                closeFilter.addEventListener('click', () => {
+                    filterPopup.classList.remove('show');
+                });
+            }
+            
+            // Cerrar popup al hacer clic fuera
+            document.addEventListener('click', (e) => {
+                if (!filterPopup.contains(e.target) && !filterBtn.contains(e.target)) {
+                    filterPopup.classList.remove('show');
+                }
+            });
+
             // ========== HEADER SCROLL HIDE ==========
             const header = document.getElementById('main-header');
             let lastScrollY = window.scrollY;
+            let ticking = false;
             
             window.addEventListener('scroll', () => {
-                if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                    header.classList.add('header-hidden');
-                } else {
-                    header.classList.remove('header-hidden');
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        if (window.scrollY > lastScrollY && window.scrollY > 80) {
+                            header.classList.add('header-hidden');
+                        } else if (window.scrollY < lastScrollY || window.scrollY <= 80) {
+                            header.classList.remove('header-hidden');
+                        }
+                        lastScrollY = window.scrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-                lastScrollY = window.scrollY;
             });
+
+            // ========== FILTRO POR LENGUAJE ==========
+            const languageFilter = document.getElementById('language-filter');
+            if (languageFilter) {
+                document.addEventListener('filterChange', (e) => {
+                    languageFilter.value = e.detail.category;
+                    languageFilter.dispatchEvent(new Event('change'));
+                });
+            }
             
             // ========== 3 OPCIONES DE IMPORTACIÓN ==========
             const importFileBtn = document.getElementById('import-file-btn');
@@ -135,7 +212,6 @@
                 });
             }
             
-            // Subir archivo - oculta CodeMirror
             if (importFileBtn) {
                 importFileBtn.addEventListener('click', () => {
                     hideAllPanels();
@@ -145,7 +221,6 @@
                 });
             }
             
-            // GitHub Gist - oculta CodeMirror
             if (importGistBtn) {
                 importGistBtn.addEventListener('click', () => {
                     hideAllPanels();
@@ -155,14 +230,12 @@
                 });
             }
             
-            // Escribir código - MUESTRA CodeMirror directamente
             if (importPasteBtn) {
                 importPasteBtn.addEventListener('click', () => {
                     hideAllPanels();
                     importPasteBtn.classList.add('active');
                     if (codeMirrorContainer) {
                         codeMirrorContainer.style.display = 'block';
-                        // Refrescar CodeMirror si ya existe
                         if (window.contentEditor) {
                             setTimeout(() => window.contentEditor.refresh(), 100);
                         }
@@ -170,22 +243,19 @@
                 });
             }
             
-            // Configurar zona de drag & drop
+            
             const dropzone = document.getElementById('import-dropzone');
             const fileInput = document.getElementById('file-input');
             
             if (dropzone && fileInput) {
                 dropzone.addEventListener('click', () => fileInput.click());
-                
                 dropzone.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     dropzone.classList.add('drag-over');
                 });
-                
                 dropzone.addEventListener('dragleave', () => {
                     dropzone.classList.remove('drag-over');
                 });
-                
                 dropzone.addEventListener('drop', (e) => {
                     e.preventDefault();
                     dropzone.classList.remove('drag-over');
@@ -238,7 +308,6 @@
                         </select>
                     </div>
                     
-                    <!-- IMPORTAR - 3 OPCIONES -->
                     <div class="form-group">
                         <label><i class="fas fa-file-import"></i> Importar código:</label>
                         <div class="import-options">
@@ -253,7 +322,6 @@
                             </button>
                         </div>
                         
-                        <!-- PANEL SUBIR ARCHIVO -->
                         <div id="import-file-panel" class="import-panel" style="display: none;">
                             <div class="import-zone" id="import-dropzone">
                                 <i class="fas fa-cloud-upload-alt"></i>
@@ -262,7 +330,6 @@
                             </div>
                         </div>
                         
-                        <!-- PANEL GITHUB GIST -->
                         <div id="import-gist-panel" class="import-panel" style="display: none;">
                             <div class="import-gist-content">
                                 <div style="display: flex; gap: 10px;">
@@ -275,18 +342,12 @@
                     </div>
                 </div>
                 
-                <!-- CÓDIGO - CodeMirror (SOLO visible en opción "Escribir código") -->
                 <div id="code-mirror-container" class="form-group" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <label for="script-content"><i class="fas fa-file-code"></i> Código:</label>
-
-                    </div>
                     <div class="code-mirror-wrapper">
                         <textarea id="script-content" placeholder="Escribe tu código aquí..."></textarea>
                     </div>
                 </div>
                 
-                <!-- OBSERVACIONES -->
                 <div class="form-group">
                     <label for="script-notes"><i class="fas fa-sticky-note"></i> Observaciones:</label>
                     <textarea id="script-notes" placeholder="Notas sobre el código (opcional)" rows="3"></textarea>
@@ -312,7 +373,6 @@
                 <p class="script-notes" id="modal-notes" style="text-align: center; white-space: pre-line;"></p>
             </div>
             
-            <!-- SELECTOR DE VERSIONES -->
             <div class="version-selector" id="version-selector" style="display: none;">
                 <label><i class="fas fa-history"></i> Historial de versiones:</label>
                 <select id="version-select"></select>
@@ -333,11 +393,9 @@
         </div>
     </div>
 
-    <!-- FORMULARIO EDITAR SCRIPT -->
     <div id="edit-script-section" class="container" style="display: none;">
         <form id="edit-script-form">
             <input type="hidden" id="edit-script-id">
-            
             <div class="form-row">
                 <div class="form-group">
                     <label for="edit-script-title">Nombre Script:</label>
@@ -375,7 +433,6 @@
                 </div>
             </div>
             
-            <!-- CÓDIGO - CodeMirror (siempre visible en edición) -->
             <div class="form-group">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label for="edit-script-content">Código:</label>
@@ -388,7 +445,6 @@
                 </div>
             </div>
             
-            <!-- OBSERVACIONES -->
             <div class="form-group">
                 <label for="edit-script-notes">Observaciones:</label>
                 <textarea id="edit-script-notes" placeholder="Notas sobre el código" rows="3"></textarea>
@@ -402,7 +458,6 @@
         </form>
     </div>
 
-    <!-- ESTRELLA FLOTANTE PARA FAVORITOS -->
     <div id="star-feedback" class="star-feedback" style="display: none;">⭐</div>
 
     <script type="module" src="js/anthon-code.js"></script>

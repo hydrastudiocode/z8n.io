@@ -135,6 +135,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
+    
 }
 
 .header-left {
@@ -783,7 +784,130 @@ nav a.active {
         font-size: 0.75rem;
     }
 }
+/* ========== FILTRO POPUP ========== */
+.filter-btn {
+    background: var(--accent-primary);
+    color: #000;
+}
 
+.filter-popup {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    width: 280px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+}
+
+.filter-popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.filter-header h3 {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.close-filter {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.close-filter:hover {
+    color: var(--accent-primary);
+}
+
+.filter-buttons {
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.filter-lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border: none;
+    border-left: 3px solid;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.filter-lang-btn i {
+    width: 24px;
+    font-size: 1.1rem;
+}
+
+.filter-lang-btn:hover {
+    background: var(--bg-header);
+    transform: translateX(4px);
+}
+
+.filter-lang-btn.active {
+    background: rgba(254, 144, 2, 0.15);
+    border-left-width: 4px;
+}
+
+/* ========== HEADER SCROLL HIDE ========== */
+#main-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: transform 0.3s ease;
+}
+
+#main-header.header-hidden {
+    transform: translateY(-100%);
+}
+
+/* ========== FAVORITOS NAV ========== */
+.favorites-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .filter-popup {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+        top: 60px;
+    }
+    
+    .filter-lang-btn {
+        padding: 8px 12px;
+    }
+}
 /* Ajustes de fuente */
 .cm-content {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
