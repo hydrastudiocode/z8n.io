@@ -8,7 +8,8 @@ function getLanguageLogo(language) {
         'JavaScript': 'assets/javaScript.png', 'GdScript': 'assets/gd.png',
         'FireBase': 'assets/fire.png', 'PHP': 'assets/php.png',
         'Python': 'assets/python.png', 'HTML': 'assets/html.png',
-        'CSS': 'assets/css.png', 'GitHub': 'assets/github3.svg', 'Otro': 'assets/logowar.png'
+        'CSS': 'assets/css.png', 'GitHub': 'assets/github3.svg', 'Otro': 'assets/logowar.png',
+        'Git': 'assets/git.svg'
     };
     return logos[language] || logos['Otro'];
 }

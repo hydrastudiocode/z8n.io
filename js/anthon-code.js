@@ -1,15 +1,17 @@
 import { initializeFirebase, initFirestoreRefs } from './modules/firebase-init.js';
 import { checkAuthAndRedirect, setupLogoutButton, setupInactivityMonitoring } from './modules/auth.js';
 import { loadScripts } from './modules/ui-scripts.js';
-import { addNewScript, updateScript } from './modules/scripts-crud.js';
+import { addNewScript, updateScript, updateFilterState } from './modules/scripts-crud.js';
 import { initCodeMirror, initModalViewer, getContentEditor, getEditEditor } from './modules/editor-codemirror.js';
 import { setupExpandEditor } from './modules/editor-expand.js';
 import { setupFileImport } from './modules/import-file.js';
 import { setupGistImport } from './modules/import-gist.js';
 import { showNotification } from './modules/ui-modal.js';
+
 // ========== ESTADO DEL FILTRO ==========
 let currentCategory = 'all';
 let isShowingFavorites = false;
+
 // ========== INICIALIZACIÓN ==========
 function init() {
     initializeFirebase();
@@ -34,16 +36,21 @@ function init() {
     setupNavigation();
     setupFormSubmits();
     setupModalClose();
-
     
-    // Cargar scripts
-    loadScripts('all');
+    // ========== FILTRO POR LENGUAJE (desde el popup) ==========
+    document.addEventListener('filterChange', (e) => {
+        currentCategory = e.detail.category;
+        updateFilterState(currentCategory, isShowingFavorites);
+        loadScripts(currentCategory, '', isShowingFavorites);
+    });
+    
+    // Cargar scripts iniciales
+    loadScripts(currentCategory, '', false);
     
     // Inactividad
     if (!window.location.pathname.includes('index.html')) {
         setupInactivityMonitoring();
     }
-    
 }
 
 function setupNavigation() {
@@ -79,6 +86,7 @@ function showSection(section) {
         document.getElementById('scripts-section').style.display = 'block';
         document.getElementById('view-scripts-link').classList.add('active');
         isShowingFavorites = false;
+        updateFilterState(currentCategory, isShowingFavorites);
         loadScripts(currentCategory, '', false);
     } else if (section === 'add-script') {
         document.getElementById('add-script-section').style.display = 'block';
@@ -88,11 +96,13 @@ function showSection(section) {
         document.getElementById('scripts-section').style.display = 'block';
         document.getElementById('favorites-link')?.classList.add('active');
         isShowingFavorites = true;
+        updateFilterState(currentCategory, isShowingFavorites);
         loadScripts(currentCategory, '', true);
     }
 }
 
 function setupFormSubmits() {
+    // Formulario de agregar script
     document.getElementById('script-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = document.querySelector('#script-form button[type="submit"]');
@@ -124,6 +134,7 @@ function setupFormSubmits() {
             document.getElementById('script-title').value = '';
             document.getElementById('script-author').value = '';
             document.getElementById('script-notes').value = '';
+            loadScripts(currentCategory, '', isShowingFavorites);
             setTimeout(() => showSection('scripts'), 2000);
         } catch (error) {
             status.textContent = 'Error al guardar';
@@ -133,17 +144,8 @@ function setupFormSubmits() {
             submitBtn.textContent = originalText;
         }
     });
-    // ========== FILTRO POR LENGUAJE (desde el popup) ==========
-document.addEventListener('filterChange', (e) => {
-    const category = e.detail.category;
-    console.log('Filtrando por:', category); // Para depurar
     
-    // Guardar categoría actual
-    currentCategory = category;
-    
-    // Recargar scripts con la nueva categoría
-    loadScripts(currentCategory, '', isShowingFavorites);
-});
+    // Formulario de editar script
     document.getElementById('edit-script-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = document.querySelector('#edit-script-form button[type="submit"]');
@@ -172,6 +174,7 @@ document.addEventListener('filterChange', (e) => {
             await updateScript(id, title, author, notes, category, content);
             status.textContent = 'Script actualizado';
             status.className = 'success';
+            loadScripts(currentCategory, '', isShowingFavorites);
             setTimeout(() => showSection('scripts'), 2000);
         } catch (error) {
             status.textContent = 'Error al actualizar';
@@ -192,7 +195,6 @@ function setupModalClose() {
         if (modal.style.display === 'block' && e.key === 'Escape') modal.style.display = 'none';
     });
 }
-
 
 // Iniciar
 init();

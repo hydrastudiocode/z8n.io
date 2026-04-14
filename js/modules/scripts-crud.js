@@ -2,6 +2,17 @@ import { getScriptsRef } from './firebase-init.js';
 import { showNotification, showConfirmationModal } from './ui-modal.js';
 import { loadScripts } from './ui-scripts.js';
 
+// Variables globales para el filtro (deben sincronizarse con anthon-code.js)
+// Estas variables se actualizan desde anthon-code.js
+let currentCategory = 'all';
+let isShowingFavorites = false;
+
+// Función para actualizar el estado del filtro (llamada desde anthon-code.js)
+export function updateFilterState(category, showFavorites) {
+    currentCategory = category;
+    isShowingFavorites = showFavorites;
+}
+
 export async function addNewScript(title, author, notes, category, content) {
     const scriptsRef = getScriptsRef();
     try {
@@ -37,9 +48,14 @@ export async function deleteScript(id) {
     const scriptsRef = getScriptsRef();
     try {
         await scriptsRef.doc(id).delete();
+        
+        // Actualizar favoritos en localStorage
         const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
         localStorage.setItem('favorites', JSON.stringify(favorites.filter(fid => fid !== id)));
-        loadScripts(document.getElementById('language-filter').value);
+        
+        // Usar las variables globales en lugar de buscar el elemento inexistente
+        loadScripts(currentCategory, '', isShowingFavorites);
+        
         document.getElementById('script-modal').style.display = 'none';
         showNotification('Script eliminado correctamente', 'success');
         return true;
@@ -63,6 +79,9 @@ export async function cloneScript(id, script) {
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         showNotification('Script clonado correctamente', 'success');
+        
+        // Recargar scripts después de clonar
+        loadScripts(currentCategory, '', isShowingFavorites);
         return true;
     } catch (error) {
         console.error('Error al clonar script:', error);
