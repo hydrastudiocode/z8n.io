@@ -9,7 +9,23 @@ function getLanguageLogo(language) {
         'FireBase': 'assets/fire.png', 'PHP': 'assets/php.png',
         'Python': 'assets/python.png', 'HTML': 'assets/html.png',
         'CSS': 'assets/css.png', 'GitHub': 'assets/github3.svg', 'Otro': 'assets/logowar.png',
-        'Git': 'assets/git.svg'
+        'Git': 'assets/git.svg', 'Google': 'assets/google.svg', 'Microsoft': 'assets/microsoft.svg',
+        'Meta': 'assets/meta.svg', 'Spotify': 'assets/spotify.svg', 'Discord': 'assets/discord.svg',
+        'Slack': 'assets/slack.svg', 'Figma': 'assets/figma.svg', 'Stripe': 'assets/stripe.svg',
+        'Vercel': 'assets/vercel.svg', 'Docker': 'assets/docker.svg', 'React': 'assets/react.svg',
+        'Next.js': 'assets/nextjs.svg', 'TypeScript': 'assets/typescript.svg', 'Rust': 'assets/rust.svg',
+        'Claude': 'assets/claude.svg', 'Supabase': 'assets/supabase.svg', 'PostgreSQL': 'assets/postgresql.svg',
+        'MongoDB': 'assets/mongodb.svg', 'Redis': 'assets/redis.svg', 'Linux': 'assets/linux.svg',
+        'AWS': 'assets/aws.svg', 'Cloudfare': 'assets/cloudfare.svg', 'Swift': 'assets/swift.svg',
+        'Android': 'assets/android.svg', 'AndroidStudio': 'assets/androidstudio.svg', 'JSON': 'assets/json.svg',
+        'DotEnv': 'assets/dotenv.svg', 'Apache': 'assets/apache.svg', 'Angular': 'assets/angular.svg',
+        'Astro': 'assets/astro.svg', 'Blitz': 'assets/blitz.svg', 'Django': 'assets/django.svg',
+        'Microsoft-Net': 'assets/microsoft-dotnet.svg', 'FastApi': 'assets/fastapi.svg', 'Flutter': 'assets/flutter.svg',
+        'Vue': 'assets/vue.svg', 'AssemblyScript': 'assets/assemblyscript.svg', 'Bash': 'assets/bash.svg',
+        'Css-New': 'assets/css-new.svg', 'Dart': 'assets/dart.svg', 'Java': 'assets/java.svg', 'Kotlin': 'assets/kotlin.svg',
+        'Ocaml': 'assets/ocaml.svg', 'Perl': 'assets/perl.svg', 'Powershell': 'assets/powershell.svg', 'Windows': 'assets/windows.svg',
+        'Ruby': 'assets/ruby.svg', 'SVG': 'assets/svg.svg', 'Cobol': 'assets/cobol.svg'
+
     };
     return logos[language] || logos['Otro'];
 }

@@ -784,96 +784,199 @@ nav a.active {
         font-size: 0.75rem;
     }
 }
-/* ========== FILTRO POPUP ========== */
+/* ========== FILTRO POPUP MEJORADO ========== */
 .filter-btn {
     background: var(--accent-primary);
     color: #000;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    transform: scale(1.05);
+    background: #e68500;
 }
 
 .filter-popup {
     position: fixed;
-    top: 70px;
-    right: 20px;
-    width: 280px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 1400px;
+    height: 90vh;
+    max-height: 800px;
     background: var(--bg-card);
-    border-radius: 16px;
-    box-shadow: var(--shadow-lg);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     border: 1px solid var(--border-color);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(8px);
 }
 
 .filter-popup.show {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
 }
 
 .filter-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border-radius: 24px 24px 0 0;
 }
 
 .filter-header h3 {
-    font-size: 1rem;
+    font-size: 1.3rem;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.filter-header h3 i {
+    color: var(--accent-primary);
+    font-size: 1.4rem;
 }
 
 .close-filter {
-    background: none;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-secondary);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-filter:hover {
+    background: rgba(254, 144, 2, 0.2);
     color: var(--accent-primary);
+    transform: rotate(90deg);
 }
 
+/* ========== CONTENEDOR DE FILTROS EN GRID ========== */
 .filter-buttons {
-    padding: 0.8rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-height: 400px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
     overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
 }
 
+/* Scroll personalizado */
+.filter-buttons::-webkit-scrollbar {
+    width: 8px;
+}
+
+.filter-buttons::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+}
+
+.filter-buttons::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 10px;
+}
+
+.filter-buttons::-webkit-scrollbar-thumb:hover {
+    background: #e68500;
+}
+
+/* ========== BOTONES DE FILTRO ESTILO ANTERIOR (MÁS ALTOS) ========== */
 .filter-lang-btn {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
     background: var(--bg-secondary);
     border: none;
     border-left: 3px solid;
-    border-radius: 10px;
+    border-radius: 7px;
     cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.9rem;
+    transition: all 0.25s ease;
+    font-weight: 500;
     color: var(--text-primary);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de brillo al pasar el mouse */
+
+
+.filter-lang-btn:hover::before {
+    left: 100%;
+}
+
+/* Iconos e imágenes más grandes */
+.filter-lang-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
 }
 
 .filter-lang-btn i {
-    width: 24px;
-    font-size: 1.1rem;
+    width: 28px;
+    font-size: 1.3rem;
 }
 
+.filter-lang-btn span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* HOVER - SOLO BORDE FINO Y SOMBRA MUY SUTIL */
 .filter-lang-btn:hover {
+    transform: translateY(-2px);
     background: var(--bg-header);
-    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    /* El color del borde izquierdo se mantiene, solo se hace más brillante */
+    filter: brightness(1.05);
 }
 
+/* BORDE ACTIVO MÁS FINO */
 .filter-lang-btn.active {
-    background: rgba(254, 144, 2, 0.15);
-    border-left-width: 4px;
+    background: rgba(254, 144, 2, 0.12);
+    border-left-width: 3px;
+    box-shadow: 0 0 0 2px rgba(254, 144, 2, 0.15);
+    transform: scale(0.98);
+}
+
+/* ========== SECCIONES POR CATEGORÍA ========== */
+.filter-category {
+    margin-bottom: 1rem;
+}
+
+.filter-category-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-primary);
+    padding: 0.5rem 0.75rem;
+    margin: 0.5rem 0 0.75rem 0;
+    background: rgba(254, 144, 2, 0.1);
+    border-radius: 8px;
+    display: inline-block;
 }
 
 /* ========== HEADER SCROLL HIDE ========== */
@@ -896,18 +999,95 @@ nav a.active {
 }
 
 /* ========== RESPONSIVE ========== */
-@media (max-width: 768px) {
-    .filter-popup {
-        width: calc(100% - 40px);
-        left: 20px;
-        right: 20px;
-        top: 60px;
+@media (max-width: 1200px) {
+    .filter-buttons {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 0.85rem;
+        padding: 1.25rem;
     }
     
     .filter-lang-btn {
-        padding: 8px 12px;
+        padding: 12px 14px;
+        gap: 12px;
+    }
+    
+    .filter-lang-btn img,
+    .filter-lang-btn i {
+        width: 24px;
+        height: 24px;
+        font-size: 1.2rem;
     }
 }
+
+@media (max-width: 768px) {
+    .filter-popup {
+        width: 95vw;
+        height: 85vh;
+        border-radius: 20px;
+    }
+    
+    .filter-header {
+        padding: 1rem;
+    }
+    
+    .filter-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .filter-buttons {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+    
+    .filter-lang-btn {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        gap: 10px;
+    }
+    
+    .filter-lang-btn img,
+    .filter-lang-btn i {
+        width: 22px;
+        height: 22px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-buttons {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 0.6rem;
+    }
+    
+    .filter-lang-btn {
+        padding: 10px 10px;
+        font-size: 0.8rem;
+        gap: 8px;
+    }
+    
+    .filter-lang-btn span {
+        white-space: normal;
+        text-align: left;
+        line-height: 1.2;
+    }
+}
+
+/* Ajuste para pantallas muy altas */
+@media (min-height: 900px) {
+    .filter-popup {
+        height: 85vh;
+        max-height: 700px;
+    }
+}
+
+@media (min-height: 1200px) {
+    .filter-popup {
+        height: 70vh;
+        max-height: 600px;
+    }
+}
+
 /* Ajustes de fuente */
 .cm-content {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
