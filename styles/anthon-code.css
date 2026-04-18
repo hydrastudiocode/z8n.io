@@ -532,7 +532,7 @@ main {
 }
 
 .modal-content {
-    background: var(--bg-secondary);
+    background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
     margin: 2% auto;
     padding: 1.6rem;
     border-radius: 14px;
@@ -810,23 +810,23 @@ main {
    BOTONES DE ACCIÓN DEL MODAL (copy/edit/download/delete)
    ============================================================ */
 .copy-btn, .edit-btn {
-    background: var(--accent-primary);
-    color: #000;
-    border: none;
-    padding: 0.55rem 1.1rem;
-    border-radius: var(--radius-btn);
+    background: #0f0f0f00;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 10px;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 0.82rem;
-    transition: all var(--transition-speed) ease;
-    display: inline-flex;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    transition: all 0.2s;
+    display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 }
 
 .copy-btn:hover, .edit-btn:hover {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
+    background: rgba(254, 144, 2, 0.08);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
 }
 
 .delete-btn {
@@ -857,9 +857,7 @@ form {
     background: var(--bg-card);
     padding: 2rem;
     border-radius: 14px;
-    max-width: 900px;
     margin: 2rem auto;
-    border: 1px solid var(--border-color);
 }
 
 .form-group { margin-bottom: 1.4rem; }
@@ -908,22 +906,23 @@ textarea {
 }
 
 button[type="submit"], button[type="button"] {
-    background: var(--accent-primary);
-    color: #000;
-    border: none;
-    padding: 0.7rem 1.4rem;
-    margin: 0;
-    border-radius: var(--radius-btn);
+     background: #0f0f0f00;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 10px;
     cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 600;
-    transition: all var(--transition-speed) ease;
-    width: auto;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 button[type="submit"]:hover, button[type="button"]:hover {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
+      background: rgba(254, 144, 2, 0.08);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
 }
 
 .btn-primary {
@@ -1695,4 +1694,365 @@ button[type="submit"]:hover, button[type="button"]:hover {
 
 .script-favorite-corner .fa-regular.fa-heart {
     color: var(--text-secondary);
+}
+/* ============================================================
+   MODAL DE EDICIÓN - ESTILO FULLSCREEN
+   ============================================================ */
+.edit-modal .modal-content {
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh;
+    max-height: 90vh;
+    margin: 2% auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.edit-modal .modal-content h2 {
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.edit-modal form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.edit-modal .form-steps {
+    flex-shrink: 0;
+}
+
+.edit-modal .form-step {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.edit-modal .form-step.active {
+    display: flex;
+}
+
+/* Paso 1: Editor de código ocupa todo el espacio */
+#edit-step-1 {
+    min-height: 0;
+}
+
+#edit-step-1 .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-bottom: 0;
+}
+
+#edit-step-1 .code-mirror-wrapper {
+    flex: 1;
+    min-height: 0;
+}
+
+#edit-step-1 .CodeMirror {
+    height: 100% !important;
+    min-height: 400px;
+}
+
+/* Paso 2: Scroll en los campos */
+#edit-step-2 {
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .edit-modal .modal-content {
+        width: 95%;
+        height: 95vh;
+        padding: 15px;
+    }
+    
+    #edit-step-1 .CodeMirror {
+        min-height: 300px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .edit-modal .modal-content {
+        width: 85%;
+        max-width: 1400px;
+    }
+}
+
+/* ============================================================
+   MODAL DE EDICIÓN - MISMO ESTILO QUE EL MODAL DE VISUALIZACIÓN
+   ============================================================ */
+#edit-script-modal.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+}
+
+#edit-script-modal .modal-content {
+       background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
+    margin: 2% auto;
+    padding: 24px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1100px;
+    height: 90vh;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+#edit-script-modal .edit-close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+
+#edit-script-modal .edit-close:hover {
+    color: var(--accent-primary);
+}
+
+#edit-script-modal form {
+    flex: 1;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+/* Pasos del formulario */
+.form-steps {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.step-indicator {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: transparent;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.step-indicator.active {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+}
+
+.step-indicator .step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.step-indicator.active .step-number {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: #000;
+}
+
+.step-indicator .step-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Contenedor de pasos */
+.form-step {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.form-step.active {
+    display: flex;
+}
+
+/* Paso 1: Editor de código ocupa todo el espacio */
+#edit-step-1 {
+    min-height: 0;
+}
+
+#edit-step-1 .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-bottom: 0;
+}
+
+#edit-step-1 .code-mirror-wrapper {
+    flex: 1;
+    min-height: 0;
+}
+
+#edit-step-1 .CodeMirror {
+    height: 100% !important;
+    min-height: 400px;
+}
+
+/* Paso 2: Scroll en los campos */
+#edit-step-2 {
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Botones de navegación */
+.step-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.btn-next-step, .btn-prev-step {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-next-step:hover, .btn-prev-step:hover {
+    background: rgba(254, 144, 2, 0.1);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.btn-cancel-edit {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-cancel-edit:hover {
+    background: rgba(254, 144, 2, 0.1);
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #edit-script-modal .modal-content {
+        width: 95%;
+        height: 95vh;
+        padding: 16px;
+    }
+    
+    .step-indicator .step-label {
+        display: none;
+    }
+    
+    .step-indicator {
+        justify-content: center;
+        flex: none;
+        width: 60px;
+    }
+    
+    .step-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .step-buttons button {
+        flex: 1;
+    }
+    
+    #edit-step-1 .CodeMirror {
+        min-height: 300px;
+    }
+}/* Botón para salir del modo expandido */
+.expand-exit-btn {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    background: #0f0f0fb2 !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    cursor: pointer !important;
+    color: var(--text-secondary) !important;
+    font-size: 0.7rem !important;
+    transition: all 0.2s !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+.expand-exit-btn:hover {
+    background: rgba(254, 144, 2, 0.08) !important;
+    border-color: var(--accent-primary) !important;
+    color: var(--accent-primary) !important;
+}
+
+/* Asegurar que el wrapper expandido tenga posición relativa */
+.code-mirror-wrapper {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.code-mirror-wrapper.expanded {
+    position: fixed !important;
+    top: 20px !important;
+    left: 20px !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    z-index: 9999 !important;
+    background: var(--bg-secondary) !important;
+    padding: 20px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6) !important;
+}
+
+.code-mirror-wrapper.expanded .CodeMirror {
+    height: calc(100% - 50px) !important;
 }
