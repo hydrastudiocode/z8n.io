@@ -367,7 +367,7 @@ main {
 .scripts-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1px;
+    gap: 10px;
     border-radius: var(--radius-card);
     overflow: hidden;
     margin-top: 1rem;
@@ -534,10 +534,10 @@ main {
 .modal-content {
     background: var(--bg-secondary);
     margin: 2% auto;
-    padding: 2rem;
+    padding: 1.6rem;
     border-radius: 14px;
     width: 82%;
-    max-height: 90vh;
+    max-height: 95vh;
     overflow: scroll;
     position: relative;
     box-shadow: 0 25px 60px rgba(0,0,0,0.7);
@@ -857,7 +857,7 @@ form {
     background: var(--bg-card);
     padding: 2rem;
     border-radius: 14px;
-    max-width: 800px;
+    max-width: 900px;
     margin: 2rem auto;
     border: 1px solid var(--border-color);
 }
@@ -1493,4 +1493,206 @@ button[type="submit"]:hover, button[type="button"]:hover {
 
 @media (min-height: 1200px) {
     .filter-popup { height: 70vh; max-height: 600px; }
+}
+/* ==================== ANIMACIONES ==================== */
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    15% { opacity: 1; transform: translateY(0); }
+    85% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes starBurst {
+    0% { opacity: 1; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.5); }
+    100% { opacity: 0; transform: scale(2); }
+}
+
+/* ==================== TARJETAS ESTILO THE SVG ==================== */
+.scripts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    margin-top: 0;
+}
+
+.script-card {
+        background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
+    border-radius: 12px;
+    padding: 16px 12px;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.script-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+.script-card-logo {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 12px;
+    object-fit: contain;
+}
+
+.script-card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    text-align: center;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+.script-card-author {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.script-card-category {
+    font-size: 0.65rem;
+    margin-bottom: 12px;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+/* Botones de acción al hover */
+.script-card-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.2s ease;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.script-card:hover .script-card-actions {
+    opacity: 1;
+}
+
+.script-action-btn {
+    background: #0f0f0f00;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.script-action-btn i {
+    font-size: 0.75rem;
+}
+
+.script-action-btn:hover {
+    background: var(--accent-primary);
+    color: #000;
+    border-color: var(--accent-primary);
+}
+
+.script-action-btn.favorite-btn .fa-star {
+    color: var(--accent-primary);
+}
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+    .scripts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+    }
+    
+    .script-card-logo {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .script-card-title {
+        font-size: 0.75rem;
+    }
+    
+    .script-action-btn {
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .scripts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    
+    .script-card {
+        padding: 12px 8px;
+    }
+    
+    .script-card-logo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .script-card-title {
+        font-size: 0.7rem;
+    }
+    
+    .script-card-author,
+    .script-card-category {
+        font-size: 0.6rem;
+    }
+    
+    .script-action-btn {
+        padding: 3px 6px;
+    }
+    
+    .script-action-btn i {
+        font-size: 0.65rem;
+    }
+}
+/* Corazón en la esquina superior derecha */
+.script-favorite-corner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    z-index: 5;
+    backdrop-filter: blur(4px);
+}
+
+.script-favorite-corner:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0);
+    
+}
+
+.script-favorite-corner .fa-solid.fa-heart {
+    color: #ff114d;
+}
+
+.script-favorite-corner .fa-regular.fa-heart {
+    color: var(--text-secondary);
 }
