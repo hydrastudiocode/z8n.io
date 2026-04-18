@@ -2,7 +2,22 @@
 const editModal = document.getElementById('edit-script-modal');
 let currentEditScriptId = null;
 let currentEditScriptData = null;
-let isEditorExpanded = false;  // ← Añadir: estado del editor expandido
+let isEditorExpanded = false;
+let isSubmitting = false;
+
+// Obtener referencia de Firebase
+function getFirestoreRef() {
+    if (typeof firebase !== 'undefined' && firebase.firestore) {
+        return firebase.firestore();
+    }
+    if (typeof window.firebase !== 'undefined' && window.firebase.firestore) {
+        return window.firebase.firestore();
+    }
+    if (typeof db !== 'undefined') {
+        return db;
+    }
+    throw new Error('Firebase no está inicializado');
+}
 
 // Función para salir del modo expandido
 function exitExpandMode() {
@@ -10,57 +25,95 @@ function exitExpandMode() {
     if (wrapper && wrapper.classList.contains('expanded')) {
         wrapper.classList.remove('expanded');
         isEditorExpanded = false;
-        
-        // Remover el botón de salir si existe
         const exitBtn = wrapper.querySelector('.expand-exit-btn');
         if (exitBtn) exitBtn.remove();
-        
-        // Refrescar el editor después de salir del modo expandido
         setTimeout(() => {
             if (window.editEditor) window.editEditor.refresh();
         }, 100);
     }
 }
 
-// Función para resetear el formulario a su estado inicial
+// Función para resetear el formulario
 function resetEditForm() {
-    // Salir del modo expandido
     exitExpandMode();
-    
-    // Resetear al paso 1
     showEditStep(1);
-    
-    // Limpiar el status
     const statusEl = document.getElementById('edit-form-status');
-    if (statusEl) statusEl.textContent = '';
-    
-    // Limpiar el editor (opcional)
-    if (window.editEditor) {
-        window.editEditor.setValue('');
+    if (statusEl) {
+        statusEl.textContent = '';
+        statusEl.style.cssText = '';
+        statusEl.style.display = 'none';
     }
 }
 
-// Función para cerrar el modal (modificada)
+// Función para cerrar el modal
 function closeEditModal() {
-    // Resetear el estado expandido ANTES de cerrar
     exitExpandMode();
-    
-    // Ocultar modal
-    editModal.style.display = 'none';
+    if (editModal) editModal.style.display = 'none';
     currentEditScriptId = null;
     currentEditScriptData = null;
+    isSubmitting = false;
+    
+    // Limpiar el formulario
+    const form = document.getElementById('edit-script-form');
+    if (form) form.reset();
+    if (window.editEditor) window.editEditor.setValue('');
+    
+    // Limpiar mensajes de estado
+    const statusEl = document.getElementById('edit-form-status');
+    if (statusEl) {
+        statusEl.textContent = '';
+        statusEl.style.cssText = '';
+        statusEl.style.display = 'none';
+    }
+    
+    // Restaurar botón de submit si estaba bloqueado
+    const submitBtn = document.querySelector('#edit-script-form button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Script';
+        submitBtn.disabled = false;
+    }
 }
 
-// Función para mostrar el modal de edición (modificada)
+// Función para recargar los scripts (sin recargar página)
+function reloadScripts() {
+    // Disparar evento personalizado
+    const event = new CustomEvent('scriptsReload');
+    document.dispatchEvent(event);
+    
+    // Intentar diferentes formas de recargar
+    setTimeout(() => {
+        if (typeof window.loadScripts === 'function') {
+            window.loadScripts();
+        } else if (typeof loadScripts === 'function') {
+            loadScripts();
+        }
+        // No recargar la página automáticamente
+    }, 300);
+}
+
+// Función para mostrar el modal de edición
 window.showEditModal = function(scriptId, scriptData) {
-    // Asegurarse de que el modo expandido esté cerrado antes de abrir
-    exitExpandMode();
+    // Resetear estado antes de abrir
+    resetEditForm();
+    isSubmitting = false;
+    
+    // Restaurar botón de submit
+    const submitBtn = document.querySelector('#edit-script-form button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Script';
+        submitBtn.disabled = false;
+    }
     
     currentEditScriptId = scriptId;
     currentEditScriptData = scriptData;
     
-    // Limpiar estado anterior
-    document.getElementById('edit-form-status').textContent = '';
+    // Limpiar mensajes de error
+    const statusEl = document.getElementById('edit-form-status');
+    if (statusEl) {
+        statusEl.textContent = '';
+        statusEl.style.cssText = '';
+        statusEl.style.display = 'none';
+    }
     
     // Resetear al paso 1
     showEditStep(1);
@@ -76,8 +129,8 @@ window.showEditModal = function(scriptId, scriptData) {
     const textarea = document.getElementById('edit-script-content');
     if (window.editEditor) {
         window.editEditor.setValue(scriptData.content || '');
-        // Asegurar que el editor no esté en modo expandido
         window.editEditor.setSize(null, null);
+        window.editEditor.setOption('mode', getModeFromCategory(scriptData.category));
     } else {
         window.editEditor = CodeMirror.fromTextArea(textarea, {
             lineNumbers: true,
@@ -94,46 +147,29 @@ window.showEditModal = function(scriptId, scriptData) {
     // Mostrar modal
     editModal.style.display = 'block';
     
-    // Refrescar editor después de mostrar
+    // Refrescar editor
     setTimeout(() => {
         if (window.editEditor) window.editEditor.refresh();
     }, 100);
 };
 
-// Botón expandir editor (modificado)
+// Botón expandir editor
 document.getElementById('expand-edit-editor-btn')?.addEventListener('click', () => {
     const wrapper = document.querySelector('#edit-step-1 .code-mirror-wrapper');
     
     if (!wrapper.classList.contains('expanded')) {
-        // Entrar en modo expandido
         wrapper.classList.add('expanded');
         isEditorExpanded = true;
         
-        // Añadir botón para salir
         const exitBtn = document.createElement('button');
         exitBtn.className = 'expand-exit-btn';
         exitBtn.innerHTML = '<i class="fas fa-compress"></i> Salir';
-        exitBtn.style.cssText = `
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--accent-primary);
-            color: #000;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            z-index: 10000;
-            font-size: 12px;
-            font-weight: bold;
-        `;
         exitBtn.onclick = (e) => {
             e.stopPropagation();
             exitExpandMode();
         };
         wrapper.appendChild(exitBtn);
     } else {
-        // Salir del modo expandido
         exitExpandMode();
     }
     
@@ -142,22 +178,21 @@ document.getElementById('expand-edit-editor-btn')?.addEventListener('click', () 
     }, 100);
 });
 
-// Función para cambiar de paso (modificada)
+// Función para cambiar de paso
 function showEditStep(stepNumber) {
     const step1 = document.getElementById('edit-step-1');
     const step2 = document.getElementById('edit-step-2');
     const indicators = document.querySelectorAll('.step-indicator');
     
-    // Salir del modo expandido al cambiar de paso
     exitExpandMode();
     
     if (stepNumber === 1) {
-        step1.classList.add('active');
-        step2.classList.remove('active');
+        if (step1) step1.classList.add('active');
+        if (step2) step2.classList.remove('active');
         setTimeout(() => window.editEditor?.refresh(), 100);
     } else {
-        step1.classList.remove('active');
-        step2.classList.add('active');
+        if (step1) step1.classList.remove('active');
+        if (step2) step2.classList.add('active');
     }
     
     indicators.forEach(indicator => {
@@ -170,7 +205,127 @@ function showEditStep(stepNumber) {
     });
 }
 
-// Eventos del modal (modificados)
+// Función para mostrar SOLO mensajes de éxito o error
+function showEditStatus(message, type) {
+    const statusEl = document.getElementById('edit-form-status');
+    if (!statusEl) return;
+    
+    statusEl.textContent = message;
+    statusEl.style.display = 'block';
+    statusEl.style.padding = '10px';
+    statusEl.style.borderRadius = '8px';
+    statusEl.style.marginTop = '15px';
+    statusEl.style.textAlign = 'center';
+    
+    if (type === 'success') {
+        statusEl.style.color = '#4caf50';
+        statusEl.style.background = 'rgba(76, 175, 80, 0.1)';
+        statusEl.style.border = '1px solid #4caf50';
+        // Limpiar mensaje de éxito después de 2 segundos
+        setTimeout(() => {
+            if (statusEl.textContent === message) {
+                statusEl.style.display = 'none';
+            }
+        }, 2000);
+    } else if (type === 'error') {
+        statusEl.style.color = '#f44336';
+        statusEl.style.background = 'rgba(244, 67, 54, 0.1)';
+        statusEl.style.border = '1px solid #f44336';
+        // Limpiar mensaje de error después de 3 segundos
+        setTimeout(() => {
+            if (statusEl.textContent === message) {
+                statusEl.style.display = 'none';
+            }
+        }, 3000);
+    }
+}
+
+// ========== SUBMIT DEL FORMULARIO CORREGIDO ==========
+document.getElementById('edit-script-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Prevenir envíos múltiples
+    if (isSubmitting) {
+        return; // Silenciosamente ignorar
+    }
+    
+    const scriptId = document.getElementById('edit-script-id').value;
+    if (!scriptId) {
+        showEditStatus('❌ Error: ID del script no encontrado', 'error');
+        return;
+    }
+    
+    // Obtener valores (sin validación de campos requeridos para no mostrar mensajes innecesarios)
+    const title = document.getElementById('edit-script-title').value.trim();
+    const category = document.getElementById('edit-script-category').value;
+    
+    // Validación silenciosa - solo prevenir envío sin mostrar mensajes
+    if (!title || !category) {
+        // No mostrar mensaje, solo evitar envío
+        return;
+    }
+    
+    const updatedData = {
+        title: title,
+        author: document.getElementById('edit-script-author').value.trim() || 'Anónimo',
+        category: category,
+        content: window.editEditor ? window.editEditor.getValue() : document.getElementById('edit-script-content').value,
+        notes: document.getElementById('edit-script-notes').value || '',
+        updatedAt: new Date()
+    };
+    
+    // Bloquear botón
+    isSubmitting = true;
+    const submitBtn = document.querySelector('#edit-script-form button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Obtener referencia a Firestore
+        let scriptsRef;
+        try {
+            const db = getFirestoreRef();
+            scriptsRef = db.collection('scripts');
+        } catch (err) {
+            throw new Error('Firebase no está inicializado');
+        }
+        
+        // Actualizar en Firebase
+        await scriptsRef.doc(scriptId).update(updatedData);
+        
+        // Mostrar mensaje de éxito
+        showEditStatus('✅ Script actualizado correctamente', 'success');
+        
+        // Cerrar modal después de éxito
+        setTimeout(() => {
+            closeEditModal();
+            // Recargar scripts sin recargar página
+            reloadScripts();
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Error al actualizar:', error);
+        
+        let errorMsg = '❌ Error al actualizar el script';
+        if (error.message) {
+            if (error.message.includes('permission')) {
+                errorMsg = '❌ Sin permisos para editar este script';
+            } else if (error.message.includes('network')) {
+                errorMsg = '❌ Error de red. Revisa tu conexión';
+            }
+        }
+        
+        showEditStatus(errorMsg, 'error');
+        
+        // Restaurar botón después del error
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+        isSubmitting = false;
+    }
+});
+
+// Eventos del modal
 document.querySelectorAll('.edit-close, .btn-cancel-edit').forEach(btn => {
     btn.addEventListener('click', closeEditModal);
 });
@@ -199,49 +354,6 @@ document.querySelectorAll('.step-indicator').forEach(indicator => {
     });
 });
 
-// Submit del formulario (modificado para resetear después de guardar)
-document.getElementById('edit-script-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const scriptId = document.getElementById('edit-script-id').value;
-    const updatedData = {
-        title: document.getElementById('edit-script-title').value,
-        author: document.getElementById('edit-script-author').value,
-        category: document.getElementById('edit-script-category').value,
-        content: window.editEditor ? window.editEditor.getValue() : document.getElementById('edit-script-content').value,
-        notes: document.getElementById('edit-script-notes').value,
-        updatedAt: new Date()
-    };
-    
-    try {
-        const { getScriptsRef } = await import('../firebase-init.js');
-        const scriptsRef = getScriptsRef();
-        await scriptsRef.doc(scriptId).update(updatedData);
-        
-        // Mostrar feedback
-        const statusEl = document.getElementById('edit-form-status');
-        statusEl.textContent = '✅ Script actualizado correctamente';
-        statusEl.style.color = 'var(--accent-primary)';
-        
-        setTimeout(() => {
-            // Resetear antes de cerrar
-            resetEditForm();
-            closeEditModal();
-            // Recargar scripts
-            if (typeof loadScripts === 'function') {
-                loadScripts();
-            } else {
-                location.reload();
-            }
-        }, 1000);
-    } catch (error) {
-        console.error('Error al actualizar:', error);
-        const statusEl = document.getElementById('edit-form-status');
-        statusEl.textContent = '❌ Error al actualizar el script';
-        statusEl.style.color = 'var(--accent-red)';
-    }
-});
-
 // Función auxiliar para obtener modo de syntax
 function getModeFromCategory(category) {
     const modes = {
@@ -257,11 +369,14 @@ function getModeFromCategory(category) {
         'TypeScript': 'javascript',
         'Java': 'text/x-java',
         'Ruby': 'ruby',
-        'Bash': 'shell'
+        'Bash': 'shell',
+        'GdScript': 'javascript'
     };
     return modes[category] || 'javascript';
 }
 
-// Exportar funciones al objeto window
+// Exportar funciones
 window.showEditModal = showEditModal;
 window.closeEditModal = closeEditModal;
+
+console.log('Editor de scripts cargado correctamente');
