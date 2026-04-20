@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // ========== DATOS DE LENGUAJES ==========
 const languages = [
     // ==================== LENGUAJES ====================
-    { id: 'all', name: 'General', icon: 'assets/logowar.png', color: '#6c757d', isImage: true, category: 'lenguajes' },
+    { id: 'all', name: 'General', icon: 'assets/logowar.png', color: '#f8cb02', isImage: true, category: 'lenguajes' },
     { id: 'JavaScript', name: 'JavaScript', icon: 'assets/JavaScript.png', color: '#f7df1e', isImage: true, category: 'lenguajes' },
     { id: 'TypeScript', name: 'TypeScript', icon: 'assets/typescript.svg', color: '#3178C6', isImage: true, category: 'lenguajes' },
     { id: 'Python', name: 'Python', icon: 'assets/python.png', color: '#3776AB', isImage: true, category: 'lenguajes' },
@@ -11,13 +11,13 @@ const languages = [
     { id: 'C', name: 'C', icon: 'assets/c.png', color: '#00599C', isImage: true, category: 'lenguajes' },
     { id: 'C++', name: 'C++', icon: 'assets/c3.png', color: '#00599C', isImage: true, category: 'lenguajes' },
     { id: 'C#', name: 'C#', icon: 'assets/c2.png', color: '#68217A', isImage: true, category: 'lenguajes' },
-    { id: 'Rust', name: 'Rust', icon: 'assets/rust.svg', color: '#DEA584', isImage: true, category: 'lenguajes' },
+    { id: 'Rust', name: 'Rust', icon: 'assets/rust.svg', color: '#ffffff', isImage: true, category: 'lenguajes' },
     { id: 'Ruby', name: 'Ruby', icon: 'assets/ruby.svg', color: '#CC342D', isImage: true, category: 'lenguajes' },
     { id: 'Swift', name: 'Swift', icon: 'assets/swift.svg', color: '#F05138', isImage: true, category: 'lenguajes' },
-    { id: 'Kotlin', name: 'Kotlin', icon: 'assets/kotlin.svg', color: '#7F52FF', isImage: true, category: 'lenguajes' },
+    { id: 'Kotlin', name: 'Kotlin', icon: 'assets/kotlin.svg', color: '#740dd4', isImage: true, category: 'lenguajes' },
     { id: 'Dart', name: 'Dart', icon: 'assets/dart.svg', color: '#00B4AB', isImage: true, category: 'lenguajes' },
-    { id: 'Go', name: 'Go', icon: 'assets/go.svg', color: '#00ADD8', isImage: true, category: 'lenguajes' },
-    { id: 'Cobol', name: 'Cobol', icon: 'assets/cobol.svg', color: '#00ADD8', isImage: true, category: 'lenguajes' },
+    { id: 'Go', name: 'Go', icon: 'assets/go.svg', color: '#dff0f5', isImage: true, category: 'lenguajes' },
+    { id: 'Cobol', name: 'Cobol', icon: 'assets/cobol.svg', color: '#007694', isImage: true, category: 'lenguajes' },
     { id: 'GdScript', name: 'GdScript', icon: 'assets/gd.png', color: '#478CBF', isImage: true, category: 'lenguajes' },
     { id: 'HTML', name: 'HTML', icon: 'assets/html.png', color: '#E34F26', isImage: true, category: 'lenguajes' },
     { id: 'CSS', name: 'CSS', icon: 'assets/css.png', color: '#1572B6', isImage: true, category: 'lenguajes' },
@@ -26,7 +26,7 @@ const languages = [
     { id: 'Perl', name: 'Perl', icon: 'assets/perl.svg', color: '#39457E', isImage: true, category: 'lenguajes' },
     { id: 'Ocaml', name: 'Ocaml', icon: 'assets/ocaml.svg', color: '#EC6813', isImage: true, category: 'lenguajes' },
     { id: 'AssemblyScript', name: 'AssemblyScript', icon: 'assets/assemblyscript.svg', color: '#007AAC', isImage: true, category: 'lenguajes' },
-    { id: 'JSON', name: 'JSON', icon: 'assets/format-json-online.svg', color: '#000000', isImage: true, category: 'lenguajes' },
+    { id: 'JSON', name: 'JSON', icon: 'assets/format-json-online.svg', color: '#00aa25', isImage: true, category: 'lenguajes' },
     { id: 'SVG', name: 'SVG', icon: 'assets/svg.svg', color: '#FFB13B', isImage: true, category: 'lenguajes' },
     
     // ==================== FRAMEWORKS ====================
@@ -34,7 +34,7 @@ const languages = [
     { id: 'Next.js', name: 'Next.js', icon: 'assets/nextdotjs.svg', color: '#000000', isImage: true, category: 'frameworks' },
     { id: 'Vue', name: 'Vue', icon: 'assets/vue.svg', color: '#4FC08D', isImage: true, category: 'frameworks' },
     { id: 'Angular', name: 'Angular', icon: 'assets/angular.svg', color: '#DD0031', isImage: true, category: 'frameworks' },
-    { id: 'Django', name: 'Django', icon: 'assets/django.svg', color: '#092E20', isImage: true, category: 'frameworks' },
+    { id: 'Django', name: 'Django', icon: 'assets/django.svg', color: '#00aa25', isImage: true, category: 'frameworks' },
     { id: 'Flutter', name: 'Flutter', icon: 'assets/flutter.svg', color: '#02569B', isImage: true, category: 'frameworks' },
     { id: 'FastApi', name: 'FastApi', icon: 'assets/fastapi.svg', color: '#009688', isImage: true, category: 'frameworks' },
     { id: 'Net', name: '.NET', icon: 'assets/dotnet.svg', color: '#512BD4', isImage: true, category: 'frameworks' },
@@ -45,10 +45,10 @@ const languages = [
     
     // ==================== HERRAMIENTAS ====================
     { id: 'Git', name: 'Git', icon: 'assets/git.svg', color: '#F05032', isImage: true, category: 'herramientas' },
-    { id: 'GitHub', name: 'GitHub', icon: 'assets/github3.svg', color: '#181717', isImage: true, category: 'herramientas' },
+    { id: 'GitHub', name: 'GitHub', icon: 'assets/github3.svg', color: '#ffffff', isImage: true, category: 'herramientas' },
     { id: 'Docker', name: 'Docker', icon: 'assets/docker.svg', color: '#2496ED', isImage: true, category: 'herramientas' },
     { id: 'Figma', name: 'Figma', icon: 'assets/figma.svg', color: '#F24E1E', isImage: true, category: 'herramientas' },
-    { id: 'Vercel', name: 'Vercel', icon: 'assets/vercel.svg', color: '#000000', isImage: true, category: 'herramientas' },
+    { id: 'Vercel', name: 'Vercel', icon: 'assets/vercel.svg', color: '#ffffff', isImage: true, category: 'herramientas' },
     { id: 'AndroidStudio', name: 'Android Studio', icon: 'assets/android-studio.svg', color: '#3DDC84', isImage: true, category: 'herramientas' },
     { id: 'Apache', name: 'Apache', icon: 'assets/apache.svg', color: '#D22128', isImage: true, category: 'herramientas' },
     { id: 'Linux', name: 'Linux', icon: 'assets/linux.svg', color: '#FCC624', isImage: true, category: 'herramientas' },
@@ -75,7 +75,7 @@ const languages = [
     { id: 'Claude', name: 'Claude', icon: 'assets/claude.svg', color: '#D97757', isImage: true, category: 'utilidades' },
     
     // ==================== OTROS ====================
-    { id: 'Otro', name: 'Apuntes', icon: 'assets/logowar.png', color: '#9e9e9e', isImage: true, category: 'otros' }
+    { id: 'Otro', name: 'Apuntes', icon: 'assets/logowar.png', color: '#f8cb02', isImage: true, category: 'otros' }
 ];
 
                 // ========== GENERAR BOTONES DE FILTRO ==========
