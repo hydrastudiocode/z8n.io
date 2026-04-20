@@ -1238,7 +1238,7 @@ button[type="submit"]:hover, button[type="button"]:hover {
     box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
-.code-mirror-wrapper.expanded .CodeMirror { height: calc(100% - 50px) !important; font-size: 16px; }
+.code-mirror-wrapper.expanded .CodeMirror { height: calc(100% - 50px) !important; font-size: 14px; }
 
 .expand-exit-btn {
     position: absolute;
