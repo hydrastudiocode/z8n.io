@@ -1,494 +1,520 @@
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Anthon Libreria de Codigo</title>
-        
-        <!-- CodeMirror CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/foldgutter.min.css">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthon Libreria de Codigo</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/foldgutter.min.css">
 
-        <!-- CodeMirror JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/closebrackets.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/foldcode.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/foldgutter.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/brace-fold.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/php/php.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/clike/clike.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/htmlmixed/htmlmixed.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/css/css.min.js"></script>
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/foldgutter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/fold/brace-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/php/php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/css/css.min.js"></script>
 
-        <!-- Firebase -->
-        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
-        <!-- Highlight.js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/csharp.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cpp.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/json.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/php.min.js"></script>
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/csharp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/php.min.js"></script>
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
-        <link rel="icon" href="assets/logowar.png" type="image/x-icon">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
-        <link rel="stylesheet" href="styles/anthon-code.css">
-    </head>
-    <body>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="icon" href="assets/logowar.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="styles/anthon-code.css">
+</head>
+<body>
 
-        <!-- =====================================================
-             HEADER CON BARRA DE BÚSQUEDA
-             ===================================================== -->
-        <header id="main-header">
-            <div class="header-left">
-                <div class="logo-container">
-                    <img src="assets/logowar.png" alt="Anthon Code Logo" class="app-logo">
-                    <h1 class="app-title">Anthon Code 1.0.1</h1>
-                </div>
-            </div>
-
-            <!-- BARRA DE BÚSQUEDA CENTRAL -->
-            <div class="header-search">
-                <i class="fas fa-search header-search-icon"></i>
-                <input type="text" id="search-input" placeholder='Buscar scripts...' autocomplete="off">
-            </div>
-
-            <div class="header-actions">
-                <!-- BOTÓN FILTROS -->
-                <button id="filter-btn" class="icon-btn filter-btn">
-                    <i class="fas fa-filter"></i>
-                    <span>Filtrar</span>
-                </button>
-                <a href="https://github.com/hydrastudiocode/Anthon-Code" class="icon-btn github-btn" id="github-link">
-                    <i class="fab fa-github"></i>
-                    <span>GitHub</span>
-                </a>
-                <button class="icon-btn logout-action-btn" id="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Salir</span>
-                </button>
-            </div>
-        </header>
-
-        <!-- POPUP DE FILTROS (sin cambios) -->
-        <div id="filter-popup" class="filter-popup">
-            <div class="filter-header">
-                <h3><i class="fas fa-code-branch"></i> Filtro de Servicios</h3>
-                <button id="close-filter" class="close-filter">&times;</button>
-            </div>
-            <div class="filter-buttons" id="filter-buttons">
-                <!-- Los botones se generarán con JavaScript -->
+    <!-- =====================================================
+         HEADER CON BARRA DE BÚSQUEDA
+         ===================================================== -->
+    <header id="main-header">
+        <div class="header-left">
+            <div class="logo-container">
+                <img src="assets/logowar.png" alt="Anthon Code Logo" class="app-logo">
+                <h1 class="app-title">Anthon Code 1.0.1</h1>
             </div>
         </div>
 
-        <script src="js/anhton-code-home.js"></script>
-
-        <!-- =====================================================
-             LAYOUT: SIDEBAR + MAIN
-             ===================================================== -->
-        <div class="page-layout">
-
-            <!-- SIDEBAR IZQUIERDO -->
-            <aside class="sidebar">
-                <div class="sidebar-section">
-                    <span class="sidebar-label">Navegación</span>
-                    <a href="#" id="view-scripts-link" class="sidebar-link active">
-                        <i class="fas fa-th-large"></i>
-                        Ver Scripts
-                    </a>
-                    <a href="#" id="add-script-link" class="sidebar-link">
-                        <i class="fas fa-plus-circle"></i>
-                        Agregar Script
-                    </a>
-                    <a href="#" id="favorites-link" class="sidebar-link favorites-nav">
-                        <i class="fas fa-star"></i>
-                        Favoritos
-                    </a>
-                </div>           
-
-                <div class="sidebar-divider"></div>
-
-                <div class="sidebar-section">
-                    <span class="sidebar-label">Herramientas</span>
-                    <a href="https://github.com/hydrastudiocode/Anthon-Code" target="_blank" class="sidebar-link">
-                        <i class="fab fa-github"></i>
-                        GitHub
-                    </a>
-                    <button class="sidebar-link logout-action-btn" id="sidebar-logout-btn" style="cursor:pointer;">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Cerrar sesion
-                    </button>
-                </div>
-            </aside>
-
-            <!-- CONTENIDO PRINCIPAL -->
-            <main>
-                <div id="scripts-section" class="container">
-                    <div class="scripts-container" id="scripts-container"></div>
-                </div>
-
-                <!-- FORMULARIO AGREGAR SCRIPT -->
-                <div id="add-script-section" class="container" style="display: none;">
-                    <form id="script-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="script-title"><i class="fas fa-tag"></i> Nombre Script:</label>
-                                <input type="text" id="script-title" required placeholder="Ej: MiScript">
-                            </div>
-                            <div class="form-group">
-                                <label for="script-author"><i class="fas fa-user"></i> Autor:</label>
-                                <input type="text" id="script-author" placeholder="Nombre del autor">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group custom-select2">
-                                <label for="script-category"><i class="fas fa-code"></i> Lenguaje:</label>
-                                <select id="script-category" required>
-                                    <option value="">Selecciona un lenguaje</option>
-                                    <option value="C">C</option>
-                                    <option value="C#">C#</option>
-                                    <option value="C++">C++</option>
-                                    <option value="Python">Python</option>
-                                    <option value="PHP">PHP</option>
-                                    <option value="GdScript">Gd Script</option>
-                                    <option value="JavaScript">JavaScript</option>
-                                    <option value="FireBase">FireBase Conf</option>
-                                    <option value="HTML">HTML</option>
-                                    <option value="CSS">CSS</option>
-                                    <option value="GitHub">GitHub</option>
-                                    <option value="Git">Git</option>
-                                    <option value="Google">Google</option>
-                                    <option value="Microsoft">Microsoft</option>
-                                    <option value="Meta">Meta</option>
-                                    <option value="Spotify">Spotify</option>
-                                    <option value="Discord">Discord</option>
-                                    <option value="Slack">Slack</option>
-                                    <option value="Figma">Figma</option>
-                                    <option value="Stripe">Stripe</option>
-                                    <option value="Vercel">Vercel</option>
-                                    <option value="Docker">Docker</option>
-                                    <option value="React">React</option>
-                                    <option value="Next.js">Next.js</option>
-                                    <option value="TypeScript">TypeScript</option>
-                                    <option value="Rust">Rust</option>
-                                    <option value="Claude">Claude</option>
-                                    <option value="Supabase">Supabase</option>
-                                    <option value="PostgreSQL">PostgreSQL</option>
-                                    <option value="MongoDB">MongoDB</option>
-                                    <option value="Redis">Redis</option>
-                                    <option value="Linux">Linux</option>
-                                    <option value="AWS">AWS</option>
-                                    <option value="Cloudfare">Cloudfare</option>
-                                    <option value="Swift">Swift</option>
-                                    <option value="Android">Android</option>
-                                    <option value="AndroidStudio">Android Studio</option>
-                                    <option value="JSON">JSON</option>
-                                    <option value="DotEnv">DotEnv</option>
-                                    <option value="Apache">Apache</option>
-                                    <option value="Angular">Angular</option>
-                                    <option value="Astro">Astro</option>
-                                    <option value="Blitz">Blitz</option>
-                                    <option value="Bootstrap">Bootstrap</option>
-                                    <option value="Django">Django</option>
-                                    <option value="Net">.NET</option>
-                                    <option value="Microsoft-Net">Microsoft NET</option>
-                                    <option value="FastApi">FastApi</option>
-                                    <option value="Flutter">Flutter</option>
-                                    <option value="Vue">Vue</option>
-                                    <option value="AssemblyScript">AssemblyScript</option>
-                                    <option value="Bash">Bash</option>
-                                    <option value="Css-New">CSS New</option>
-                                    <option value="Dart">Dart</option>
-                                    <option value="Java">Java</option>
-                                    <option value="Kotlin">Kotlin</option>
-                                    <option value="Ocaml">Ocaml</option>
-                                    <option value="Perl">Perl</option>
-                                    <option value="Powershell">Powershell</option>
-                                    <option value="Windows">Windows</option>
-                                    <option value="Ruby">Ruby</option>
-                                    <option value="SVG">SVG</option>
-                                    <option value="Cobol">Cobol</option>
-                                    <option value="Otro">Apuntes</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label><i class="fas fa-file-import"></i> Importar código:</label>
-                                <div class="import-options">
-                                    <button type="button" id="import-file-btn" class="import-option-btn">
-                                        <i class="fas fa-upload"></i> Subir archivo
-                                    </button>
-                                    <button type="button" id="import-gist-option-btn" class="import-option-btn">
-                                        <i class="fab fa-github"></i> GitHub Gist
-                                    </button>
-                                    <button type="button" id="import-paste-btn" class="import-option-btn">
-                                        <i class="fas fa-keyboard"></i> Escribir código
-                                    </button>
-                                </div>
-                                
-                                <div id="import-file-panel" class="import-panel" style="display: none;">
-                                    <div class="import-zone" id="import-dropzone">
-                                        <i class="fas fa-cloud-upload-alt"></i>
-                                        <span>Arrastra un archivo o haz clic</span>
-                                        <input type="file" id="file-input" accept=".js,.py,.c,.cpp,.cs,.php,.html,.css,.json,.txt" style="display: none;">
-                                    </div>
-                                </div>
-                                
-                                <div id="import-gist-panel" class="import-panel" style="display: none;">
-                                    <div class="import-gist-content">
-                                        <div style="display: flex; gap: 10px;">
-                                            <input type="text" id="gist-url" placeholder="https://gist.github.com/usuario/abc123" class="gist-input">
-                                            <button type="button" id="import-gist-btn" class="btn-mini">Importar</button>
-                                        </div>
-                                        <small>Pega la URL de cualquier Gist público</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="code-mirror-container" class="form-group" style="display: none;">
-                            <div class="code-mirror-wrapper">
-                                <textarea id="script-content" placeholder="Escribe tu código aquí..."></textarea>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="script-notes"><i class="fas fa-sticky-note"></i> Observaciones:</label>
-                            <textarea id="script-notes" placeholder="Notas sobre el código (opcional)" rows="3"></textarea>
-                        </div>
-                            
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Guardar Script</button>
-                            <button type="button" id="cancel-add-btn" class="btn-secondary">Cancelar</button>
-                        </div>
-                        <p id="form-status"></p>
-                    </form>
-                </div>
-            </main>
-        </div><!-- /page-layout -->
-
-        <!-- MODAL PARA VER SCRIPT -->
-        <div id="script-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 id="modal-title" style="text-align: center; color: #ffffff;">Detalles del Script</h2>
-                
-                <div class="script-info">
-                    <p class="script-author" id="modal-author" style="text-align: center;"></p>
-                    <p class="script-notes" id="modal-notes" style="text-align: center; white-space: pre-line;"></p>
-                </div>
-                
-                <div class="version-selector" id="version-selector" style="display: none;">
-                    <label><i class="fas fa-history"></i> Historial de versiones:</label>
-                    <select id="version-select"></select>
-                </div>
-                
-                <div class="code-viewer">
-                    <div id="modal-editor-container" style="height: auto; border-radius: 8px;"></div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button id="copy-btn" class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
-                    <button id="modal-favorite-star" class="copy-btn"><i class="fas fa-star"></i> Favorito</button>
-                    <button id="clone-btn" class="copy-btn"><i class="fas fa-clone"></i> Clonar</button>
-                    <button id="edit-btn" class="edit-btn"><i class="fas fa-edit"></i> Editar</button>
-                    <button id="download-btn" class="copy-btn"><i class="fas fa-download"></i> Descargar</button>
-                    <button id="modal-delete-btn" class="delete-btn"><i class="fas fa-trash"></i> Eliminar</button>
-                </div>
-            </div>
+        <!-- BARRA DE BÚSQUEDA CENTRAL -->
+        <div class="header-search">
+            <i class="fas fa-search header-search-icon"></i>
+            <input type="text" id="search-input" placeholder='Buscar scripts...' autocomplete="off">
         </div>
 
-     <!-- MODAL DE EDICIÓN (igual al de visualización) -->
-<div id="edit-script-modal" class="modal">
-    <div class="modal-content edit-modal-content">
-        <span class="close edit-close">&times;</span>
-        
-        <form id="edit-script-form">
-            <input type="hidden" id="edit-script-id">
-            
-            <!-- Indicador de pasos -->
-            <div class="form-steps">
-                <div class="step-indicator active" data-step="1">   
-                    <span class="step-label">Editar Código</span>
-                </div>
-                <div class="step-indicator" data-step="2">
-                    <span class="step-label">Información</span>
-                </div>
-            </div>
-            
-            <!-- PASO 1: SOLO EL EDITOR DE CÓDIGO -->
-            <div id="edit-step-1" class="form-step active">
-                <div class="form-group">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <label for="edit-script-content"><i class="fas fa-code"></i> Código:</label>
-                        <button type="button" id="expand-edit-editor-btn" class="btn-mini">
-                            <i class="fas fa-expand"></i> Expandir
-                        </button>
-                    </div>
-                    <div class="code-mirror-wrapper">
-                        <textarea id="edit-script-content" placeholder="Escribe tu código aquí..."></textarea>
-                    </div>
-                </div>
-                <div class="step-buttons">
-                    <button type="button" class="btn-next-step" data-next="2">
-                        Siguiente <i class="fas fa-arrow-right"></i>
-                    </button>
-                    <button type="button" class="btn-cancel-edit btn-secondary">Cancelar</button>
-                </div>
-            </div>
-            
-            <!-- PASO 2: METADATOS -->
-            <div id="edit-step-2" class="form-step">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="edit-script-title"><i class="fas fa-tag"></i> Nombre Script:</label>
-                        <input type="text" id="edit-script-title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-script-author"><i class="fas fa-user"></i> Autor:</label>
-                        <input type="text" id="edit-script-author" placeholder="Nombre del autor">
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group custom-select2">
-                        <label for="edit-script-category"><i class="fas fa-code"></i> Lenguaje:</label>
-                        <select id="edit-script-category" required>
-                            <option value="">Selecciona un lenguaje</option>
-                            <option value="C">C</option>
-                            <option value="C#">C#</option>
-                            <option value="C++">C++</option>
-                            <option value="Python">Python</option>
-                            <option value="PHP">PHP</option>
-                            <option value="GdScript">Gd Script</option>
-                            <option value="JavaScript">JavaScript</option>
-                            <option value="FireBase">FireBase Conf</option>
-                            <option value="HTML">HTML</option>
-                            <option value="CSS">CSS</option>
-                            <option value="GitHub">GitHub</option>
-                            <option value="Git">Git</option>
-                            <option value="Google">Google</option>
-                            <option value="Microsoft">Microsoft</option>
-                            <option value="Meta">Meta</option>
-                            <option value="Spotify">Spotify</option>
-                            <option value="Discord">Discord</option>
-                            <option value="Slack">Slack</option>
-                            <option value="Figma">Figma</option>
-                            <option value="Stripe">Stripe</option>
-                            <option value="Vercel">Vercel</option>
-                            <option value="Docker">Docker</option>
-                            <option value="React">React</option>
-                            <option value="Next.js">Next.js</option>
-                            <option value="TypeScript">TypeScript</option>
-                            <option value="Rust">Rust</option>
-                            <option value="Claude">Claude</option>
-                            <option value="Supabase">Supabase</option>
-                            <option value="PostgreSQL">PostgreSQL</option>
-                            <option value="MongoDB">MongoDB</option>
-                            <option value="Redis">Redis</option>
-                            <option value="Linux">Linux</option>
-                            <option value="AWS">AWS</option>
-                            <option value="Cloudfare">Cloudfare</option>
-                            <option value="Swift">Swift</option>
-                            <option value="Android">Android</option>
-                            <option value="AndroidStudio">Android Studio</option>
-                            <option value="JSON">JSON</option>
-                            <option value="DotEnv">DotEnv</option>
-                            <option value="Apache">Apache</option>
-                            <option value="Angular">Angular</option>
-                            <option value="Astro">Astro</option>
-                            <option value="Blitz">Blitz</option>
-                            <option value="Bootstrap">Bootstrap</option>
-                            <option value="Django">Django</option>
-                            <option value="Net">.NET</option>
-                            <option value="Microsoft-Net">Microsoft NET</option>
-                            <option value="FastApi">FastApi</option>
-                            <option value="Flutter">Flutter</option>
-                            <option value="Vue">Vue</option>
-                            <option value="AssemblyScript">AssemblyScript</option>
-                            <option value="Bash">Bash</option>
-                            <option value="Css-New">CSS New</option>
-                            <option value="Dart">Dart</option>
-                            <option value="Java">Java</option>
-                            <option value="Kotlin">Kotlin</option>
-                            <option value="Ocaml">Ocaml</option>
-                            <option value="Perl">Perl</option>
-                            <option value="Powershell">Powershell</option>
-                            <option value="Windows">Windows</option>
-                            <option value="Ruby">Ruby</option>
-                            <option value="SVG">SVG</option>
-                            <option value="Cobol">Cobol</option>
-                            <option value="Otro">Apuntes</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit-script-notes"><i class="fas fa-sticky-note"></i> Observaciones:</label>
-                    <textarea id="edit-script-notes" placeholder="Notas sobre el código" rows="3"></textarea>
-                </div>
-                
-                <div class="step-buttons">
-                    <button type="button" class="btn-prev-step" data-prev="1">
-                        <i class="fas fa-arrow-left"></i> Anterior
-                    </button>
-                    <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Actualizar Script</button>
-                    <button type="button" class="btn-cancel-edit btn-secondary">Cancelar</button>
-                </div>
-            </div>
-            
-            <p id="edit-form-status"></p>
-        </form>
+        <div class="header-actions">
+            <!-- BOTÓN FILTROS -->
+            <button id="add-script-link" class="icon-btn filter-btn">
+                <i class="fas fa-plus-circle"></i>
+                <span>Agregar Script</span>
+            </button>    
+            <button id="filter-btn" class="icon-btn filter-btn">
+                <i class="fas fa-filter"></i>
+                <span>Filtrar</span>
+            </button>
+            <a href="https://github.com/hydrastudiocode/Anthon-Code" target="_blank" class="icon-btn github-btn" id="github-link">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <button class="icon-btn logout-action-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Salir</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- POPUP DE FILTROS -->
+    <div id="filter-popup" class="filter-popup">
+        <div class="filter-header">
+            <h3><i class="fas fa-code-branch"></i> Filtro de Servicios</h3>
+            <button id="close-filter" class="close-filter">&times;</button>
+        </div>
+        <div class="filter-buttons" id="filter-buttons">
+            <!-- Los botones se generarán con JavaScript -->
+        </div>
     </div>
-</div>
 
-        <div id="star-feedback" class="star-feedback" style="display: none;">⭐</div>
+    <script src="js/anhton-code-home.js"></script>
 
-        <!-- Script para conectar sidebar-filter-btn y sidebar-logout-btn al JS existente -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Sidebar filter btn → abre el mismo popup de filtros
-                var sbFilter = document.getElementById('sidebar-filter-btn');
-                var mainFilter = document.getElementById('filter-btn');
-                if (sbFilter && mainFilter) {
-                    sbFilter.addEventListener('click', function() { mainFilter.click(); });
-                }
-                // Sidebar logout → activa el mismo botón de logout
-                var sbLogout = document.getElementById('sidebar-logout-btn');
-                var mainLogout = document.getElementById('logout-btn');
-                if (sbLogout && mainLogout) {
-                    sbLogout.addEventListener('click', function() { mainLogout.click(); });
-                }
-                // Sincronizar clase active del sidebar con los links del nav (si siguen existiendo en el DOM)
-                function syncSidebarActive() {
-                    var links = ['view-scripts-link','add-script-link','favorites-link'];
-                    links.forEach(function(id) {
-                        var navEl = document.getElementById(id);
-                        if (navEl) {
-                            navEl.addEventListener('click', function() {
-                                document.querySelectorAll('.sidebar-link').forEach(function(el) { el.classList.remove('active'); });
-                                // Buscar el matching sidebar link por id
-                                var sidebarEl = document.querySelector('.sidebar #' + id);
-                                if (sidebarEl) sidebarEl.classList.add('active');
+    <!-- =====================================================
+         LAYOUT: SIDEBAR + MAIN
+         ===================================================== -->
+    <div class="page-layout">
+
+        <!-- SIDEBAR IZQUIERDO -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <span class="sidebar-label">Navegación</span>
+                <a href="#" id="view-scripts-link" class="sidebar-link active">
+                    <i class="fas fa-th-large"></i>
+                    Ver Scripts
+                </a>
+                <a href="#" id="favorites-link" class="sidebar-link favorites-nav">
+                    <i class="fas fa-star"></i>
+                    Favoritos
+                </a>
+            </div>           
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-label">Herramientas</span>
+                <a href="https://github.com/hydrastudiocode/Anthon-Code" target="_blank" class="sidebar-link">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+                <button class="sidebar-link logout-action-btn" id="sidebar-logout-btn" style="cursor:pointer;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar sesion
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main>
+            <div id="scripts-section" class="container">
+                <div class="scripts-container" id="scripts-container"></div>
+            </div>
+
+            <!-- FORMULARIO AGREGAR SCRIPT - AHORA ES UN MODAL QUE SE ABRE DESDE EL BOTÓN -->
+            <div id="add-script-section" class="container" style="display: none;">
+                <!-- Este div ya no se usa, ahora usamos el modal -->
+            </div>
+        </main>
+    </div><!-- /page-layout -->
+
+    <!-- MODAL PARA VER SCRIPT -->
+    <div id="script-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title" style="text-align: center; color: #ffffff;">Detalles del Script</h2>
+            
+            <div class="script-info">
+                <p class="script-author" id="modal-author" style="text-align: center;"></p>
+                <p class="script-notes" id="modal-notes" style="text-align: center; white-space: pre-line;"></p>
+            </div>
+            
+            <div class="version-selector" id="version-selector" style="display: none;">
+                <label><i class="fas fa-history"></i> Historial de versiones:</label>
+                <select id="version-select"></select>
+            </div>
+            
+            <div class="code-viewer">
+                <div id="modal-editor-container" style="height: auto; border-radius: 8px;"></div>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="copy-btn" class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+                <button id="modal-favorite-star" class="copy-btn"><i class="fas fa-star"></i> Favorito</button>
+                <button id="clone-btn" class="copy-btn"><i class="fas fa-clone"></i> Clonar</button>
+                <button id="edit-btn" class="edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                <button id="download-btn" class="copy-btn"><i class="fas fa-download"></i> Descargar</button>
+                <button id="modal-delete-btn" class="delete-btn"><i class="fas fa-trash"></i> Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE AGREGAR SCRIPT (NUEVO) -->
+    <div id="add-script-modal" class="modal">
+        <div class="modal-content edit-modal-content">
+            <span class="close add-close">&times;</span>
+            
+            <form id="add-script-form">
+                <input type="hidden" id="add-script-id">
+                
+                <!-- Indicador de pasos -->
+                <div class="form-steps">
+                    <div class="add-step-indicator active" data-step="1">   
+                        <span class="step-label">Escribir Código</span>
+                    </div>
+                    <div class="add-step-indicator" data-step="2">
+                        <span class="step-label">Información</span>
+                    </div>
+                </div>
+                
+                <!-- PASO 1: SOLO EL EDITOR DE CÓDIGO -->
+                <div id="add-step-1" class="form-step active">
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <label for="add-script-content"><i class="fas fa-code"></i> Código:</label>
+                            <button type="button" id="expand-add-editor-btn" class="btn-mini">
+                                <i class="fas fa-expand"></i> Expandir
+                            </button>
+                        </div>
+                        <div class="code-mirror-wrapper">
+                            <textarea id="add-script-content" placeholder="Escribe tu código aquí..."></textarea>
+                        </div>
+                    </div>
+                    <div class="step-buttons">
+                        <button type="button" class="btn-next-step-add" data-next="2">
+                            Siguiente <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button type="button" class="btn-cancel-add btn-secondary">Cancelar</button>
+                    </div>
+                </div>
+                
+                <!-- PASO 2: METADATOS -->
+                <div id="add-step-2" class="form-step">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="add-script-title"><i class="fas fa-tag"></i> Nombre Script:</label>
+                            <input type="text" id="add-script-title" required placeholder="Ej: MiScript">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-script-author"><i class="fas fa-user"></i> Autor:</label>
+                            <input type="text" id="add-script-author" placeholder="Nombre del autor">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group custom-select2">
+                            <label for="add-script-category"><i class="fas fa-code"></i> Lenguaje:</label>
+                            <select id="add-script-category" required>
+                                <option value="">Selecciona un lenguaje</option>
+                                <option value="C">C</option>
+                                <option value="C#">C#</option>
+                                <option value="C++">C++</option>
+                                <option value="Python">Python</option>
+                                <option value="PHP">PHP</option>
+                                <option value="GdScript">Gd Script</option>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="FireBase">FireBase Conf</option>
+                                <option value="HTML">HTML</option>
+                                <option value="CSS">CSS</option>
+                                <option value="GitHub">GitHub</option>
+                                <option value="Git">Git</option>
+                                <option value="Google">Google</option>
+                                <option value="Microsoft">Microsoft</option>
+                                <option value="Meta">Meta</option>
+                                <option value="Spotify">Spotify</option>
+                                <option value="Discord">Discord</option>
+                                <option value="Slack">Slack</option>
+                                <option value="Figma">Figma</option>
+                                <option value="Stripe">Stripe</option>
+                                <option value="Vercel">Vercel</option>
+                                <option value="Docker">Docker</option>
+                                <option value="React">React</option>
+                                <option value="Next.js">Next.js</option>
+                                <option value="TypeScript">TypeScript</option>
+                                <option value="Rust">Rust</option>
+                                <option value="Claude">Claude</option>
+                                <option value="Supabase">Supabase</option>
+                                <option value="PostgreSQL">PostgreSQL</option>
+                                <option value="MongoDB">MongoDB</option>
+                                <option value="Redis">Redis</option>
+                                <option value="Linux">Linux</option>
+                                <option value="AWS">AWS</option>
+                                <option value="Cloudfare">Cloudfare</option>
+                                <option value="Swift">Swift</option>
+                                <option value="Android">Android</option>
+                                <option value="AndroidStudio">Android Studio</option>
+                                <option value="JSON">JSON</option>
+                                <option value="DotEnv">DotEnv</option>
+                                <option value="Apache">Apache</option>
+                                <option value="Angular">Angular</option>
+                                <option value="Astro">Astro</option>
+                                <option value="Blitz">Blitz</option>
+                                <option value="Bootstrap">Bootstrap</option>
+                                <option value="Django">Django</option>
+                                <option value="Net">.NET</option>
+                                <option value="Microsoft-Net">Microsoft NET</option>
+                                <option value="FastApi">FastApi</option>
+                                <option value="Flutter">Flutter</option>
+                                <option value="Vue">Vue</option>
+                                <option value="AssemblyScript">AssemblyScript</option>
+                                <option value="Bash">Bash</option>
+                                <option value="Css-New">CSS New</option>
+                                <option value="Dart">Dart</option>
+                                <option value="Java">Java</option>
+                                <option value="Kotlin">Kotlin</option>
+                                <option value="Ocaml">Ocaml</option>
+                                <option value="Perl">Perl</option>
+                                <option value="Powershell">Powershell</option>
+                                <option value="Windows">Windows</option>
+                                <option value="Ruby">Ruby</option>
+                                <option value="SVG">SVG</option>
+                                <option value="Cobol">Cobol</option>
+                                <option value="Otro">Apuntes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="add-script-notes"><i class="fas fa-sticky-note"></i> Observaciones:</label>
+                        <textarea id="add-script-notes" placeholder="Notas sobre el código" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="step-buttons">
+                        <button type="button" class="btn-prev-step-add" data-prev="1">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Guardar Script</button>
+                        <button type="button" class="btn-cancel-add btn-secondary">Cancelar</button>
+                    </div>
+                </div>
+                
+                <p id="add-form-status"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE EDICIÓN -->
+    <div id="edit-script-modal" class="modal">
+        <div class="modal-content edit-modal-content">
+            <span class="close edit-close">&times;</span>
+            
+            <form id="edit-script-form">
+                <input type="hidden" id="edit-script-id">
+                
+                <!-- Indicador de pasos -->
+                <div class="form-steps">
+                    <div class="step-indicator active" data-step="1">   
+                        <span class="step-label">Editar Código</span>
+                    </div>
+                    <div class="step-indicator" data-step="2">
+                        <span class="step-label">Información</span>
+                    </div>
+                </div>
+                
+                <!-- PASO 1: SOLO EL EDITOR DE CÓDIGO -->
+                <div id="edit-step-1" class="form-step active">
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <label for="edit-script-content"><i class="fas fa-code"></i> Código:</label>
+                            <button type="button" id="expand-edit-editor-btn" class="btn-mini">
+                                <i class="fas fa-expand"></i> Expandir
+                            </button>
+                        </div>
+                        <div class="code-mirror-wrapper">
+                            <textarea id="edit-script-content" placeholder="Escribe tu código aquí..."></textarea>
+                        </div>
+                    </div>
+                    <div class="step-buttons">
+                        <button type="button" class="btn-next-step" data-next="2">
+                            Siguiente <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button type="button" class="btn-cancel-edit btn-secondary">Cancelar</button>
+                    </div>
+                </div>
+                
+                <!-- PASO 2: METADATOS -->
+                <div id="edit-step-2" class="form-step">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-script-title"><i class="fas fa-tag"></i> Nombre Script:</label>
+                            <input type="text" id="edit-script-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-script-author"><i class="fas fa-user"></i> Autor:</label>
+                            <input type="text" id="edit-script-author" placeholder="Nombre del autor">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group custom-select2">
+                            <label for="edit-script-category"><i class="fas fa-code"></i> Lenguaje:</label>
+                            <select id="edit-script-category" required>
+                                <option value="">Selecciona un lenguaje</option>
+                                <option value="C">C</option>
+                                <option value="C#">C#</option>
+                                <option value="C++">C++</option>
+                                <option value="Python">Python</option>
+                                <option value="PHP">PHP</option>
+                                <option value="GdScript">Gd Script</option>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="FireBase">FireBase Conf</option>
+                                <option value="HTML">HTML</option>
+                                <option value="CSS">CSS</option>
+                                <option value="GitHub">GitHub</option>
+                                <option value="Git">Git</option>
+                                <option value="Google">Google</option>
+                                <option value="Microsoft">Microsoft</option>
+                                <option value="Meta">Meta</option>
+                                <option value="Spotify">Spotify</option>
+                                <option value="Discord">Discord</option>
+                                <option value="Slack">Slack</option>
+                                <option value="Figma">Figma</option>
+                                <option value="Stripe">Stripe</option>
+                                <option value="Vercel">Vercel</option>
+                                <option value="Docker">Docker</option>
+                                <option value="React">React</option>
+                                <option value="Next.js">Next.js</option>
+                                <option value="TypeScript">TypeScript</option>
+                                <option value="Rust">Rust</option>
+                                <option value="Claude">Claude</option>
+                                <option value="Supabase">Supabase</option>
+                                <option value="PostgreSQL">PostgreSQL</option>
+                                <option value="MongoDB">MongoDB</option>
+                                <option value="Redis">Redis</option>
+                                <option value="Linux">Linux</option>
+                                <option value="AWS">AWS</option>
+                                <option value="Cloudfare">Cloudfare</option>
+                                <option value="Swift">Swift</option>
+                                <option value="Android">Android</option>
+                                <option value="AndroidStudio">Android Studio</option>
+                                <option value="JSON">JSON</option>
+                                <option value="DotEnv">DotEnv</option>
+                                <option value="Apache">Apache</option>
+                                <option value="Angular">Angular</option>
+                                <option value="Astro">Astro</option>
+                                <option value="Blitz">Blitz</option>
+                                <option value="Bootstrap">Bootstrap</option>
+                                <option value="Django">Django</option>
+                                <option value="Net">.NET</option>
+                                <option value="Microsoft-Net">Microsoft NET</option>
+                                <option value="FastApi">FastApi</option>
+                                <option value="Flutter">Flutter</option>
+                                <option value="Vue">Vue</option>
+                                <option value="AssemblyScript">AssemblyScript</option>
+                                <option value="Bash">Bash</option>
+                                <option value="Css-New">CSS New</option>
+                                <option value="Dart">Dart</option>
+                                <option value="Java">Java</option>
+                                <option value="Kotlin">Kotlin</option>
+                                <option value="Ocaml">Ocaml</option>
+                                <option value="Perl">Perl</option>
+                                <option value="Powershell">Powershell</option>
+                                <option value="Windows">Windows</option>
+                                <option value="Ruby">Ruby</option>
+                                <option value="SVG">SVG</option>
+                                <option value="Cobol">Cobol</option>
+                                <option value="Otro">Apuntes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-script-notes"><i class="fas fa-sticky-note"></i> Observaciones:</label>
+                        <textarea id="edit-script-notes" placeholder="Notas sobre el código" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="step-buttons">
+                        <button type="button" class="btn-prev-step" data-prev="1">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Actualizar Script</button>
+                        <button type="button" class="btn-cancel-edit btn-secondary">Cancelar</button>
+                    </div>
+                </div>
+                
+                <p id="edit-form-status"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="star-feedback" class="star-feedback" style="display: none;">⭐</div>
+
+    <!-- Script para conectar sidebar y manejar el botón de agregar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar filter btn → abre el mismo popup de filtros
+            var sbFilter = document.getElementById('sidebar-filter-btn');
+            var mainFilter = document.getElementById('filter-btn');
+            if (sbFilter && mainFilter) {
+                sbFilter.addEventListener('click', function() { mainFilter.click(); });
+            }
+            // Sidebar logout → activa el mismo botón de logout
+            var sbLogout = document.getElementById('sidebar-logout-btn');
+            var mainLogout = document.getElementById('logout-btn');
+            if (sbLogout && mainLogout) {
+                sbLogout.addEventListener('click', function() { mainLogout.click(); });
+            }
+            
+            // Manejar el clic en "Agregar Script" del sidebar
+            var addScriptLink = document.getElementById('add-script-link');
+            if (addScriptLink) {
+                addScriptLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof window.showAddModal === 'function') {
+                        window.showAddModal();
+                    } else {
+                        console.error('showAddModal no está definida');
+                    }
+                });
+            }
+            
+            // Sincronizar clase active del sidebar
+            function syncSidebarActive() {
+                var links = ['view-scripts-link', 'add-script-link', 'favorites-link'];
+                links.forEach(function(id) {
+                    var navEl = document.getElementById(id);
+                    if (navEl) {
+                        navEl.addEventListener('click', function() {
+                            document.querySelectorAll('.sidebar-link').forEach(function(el) { 
+                                el.classList.remove('active'); 
                             });
-                        }
-                    });
-                }
-                syncSidebarActive();
-            });
-        </script>
+                            var sidebarEl = document.querySelector('.sidebar #' + id);
+                            if (sidebarEl) sidebarEl.classList.add('active');
+                        });
+                    }
+                });
+            }
+            syncSidebarActive();
+        });
+    </script>
 
-        <script type="module" src="js/anthon-code.js"></script>
-        <script src="js/modules/editar-script.js"></script>
-    </body>
-    </html>
+    <script type="module" src="js/anthon-code.js"></script>
+    <script src="js/modules/editar-script.js"></script>
+    <script src="js/modules/agregar-script.js"></script>
+</body>
+</html>

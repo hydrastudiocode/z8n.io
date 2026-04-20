@@ -854,8 +854,8 @@ main {
    FORMULARIO — Agregar / Editar script
    ============================================================ */
 form {
-    background: var(--bg-card);
-    padding: 2rem;
+    background: #0f0f0f00;
+    /*padding: 2rem; */
     border-radius: 14px;
     margin: 2rem auto;
 }
@@ -1006,7 +1006,7 @@ button[type="submit"]:hover, button[type="button"]:hover {
     max-width: 1400px;
     height: 90vh;
     max-height: 800px;
-    background: var(--bg-card);
+    background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
     border-radius: 20px;
     box-shadow: 0 25px 60px rgba(0,0,0,0.7);
     border: 1px solid var(--border-color);
@@ -1087,8 +1087,8 @@ button[type="submit"]:hover, button[type="button"]:hover {
     align-items: center;
     justify-content: flex-start;
     gap: 12px;
-    padding: 11px 14px;
-    background: var(--bg-secondary);
+    padding: 14px 14px;
+    background: #0f0f0f00;
     border: none;
     border-left: 3px solid;
     border-radius: 6px;
@@ -1108,7 +1108,7 @@ button[type="submit"]:hover, button[type="button"]:hover {
 
 .filter-lang-btn:hover {
     transform: translateY(-1px);
-    background: #252525;
+    background: #25252500;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     filter: brightness(1.06);
 }
@@ -2047,7 +2047,7 @@ button[type="submit"]:hover, button[type="button"]:hover {
     right: 20px !important;
     bottom: 20px !important;
     z-index: 9999 !important;
-    background: var(--bg-secondary) !important;
+     background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%) !important;
     padding: 20px !important;
     border-radius: 12px !important;
     box-shadow: 0 10px 40px rgba(0,0,0,0.6) !important;
