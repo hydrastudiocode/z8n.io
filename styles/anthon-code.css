@@ -2056,3 +2056,6 @@ button[type="submit"]:hover, button[type="button"]:hover {
 .code-mirror-wrapper.expanded .CodeMirror {
     height: calc(100% - 50px) !important;
 }
+.cm-s-dracula span.cm-meta{
+    color: #ff6000 !important;
+}
