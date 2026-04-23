@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-                // ========== DATOS DE LENGUAJES ==========
 const languages = [
     // ==================== LENGUAJES ====================
     { id: 'all', name: 'General', icon: 'assets/logowar.png', color: '#f8cb02', isImage: true, category: 'lenguajes' },
@@ -79,8 +78,8 @@ const languages = [
 ];
 
                 // ========== GENERAR BOTONES DE FILTRO ==========
-                const filterButtonsContainer = document.getElementById('filter-buttons');
-       function generateFilterButtons() {
+    const filterButtonsContainer = document.getElementById('filter-buttons');
+    function generateFilterButtons() {
     filterButtonsContainer.innerHTML = '';
     languages.forEach(lang => {
         const btn = document.createElement('button');
@@ -115,7 +114,7 @@ const languages = [
         btn.addEventListener('mouseleave', function() {
             this.style.boxShadow = '';
             this.style.filter = '';
-            // Restaura el color original (puede ser más tenue si quieres)
+            // Restaura el color original 
             this.style.borderLeftColor = this.getAttribute('data-color');
         });
         
@@ -186,7 +185,6 @@ const languages = [
                     });
                 }
                 
-                // ========== 3 OPCIONES DE IMPORTACIÓN ==========
                 const importFileBtn = document.getElementById('import-file-btn');
                 const importGistBtn = document.getElementById('import-gist-option-btn');
                 const importPasteBtn = document.getElementById('import-paste-btn');
