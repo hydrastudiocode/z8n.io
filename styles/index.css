@@ -7,7 +7,7 @@
         body {
             font-family: 'Google Sans', 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -57,20 +57,16 @@
 
         /* Tarjeta de login estilo Firebase */
         .login-card {
-            background: rgba(30, 30, 30, 0.95);
+            background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 48px 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(254, 144, 2, 0.2);
+            box-shadow: 0 25px 50px -12px rgb(70 59 43 / 50%);
             transition: all 0.3s ease;
             animation: fadeInUp 0.6s ease-out;
         }
 
-        .login-card:hover {
-            border-color: rgba(254, 144, 2, 0.4);
-            box-shadow: 0 30px 60px -12px rgba(254, 144, 2, 0.2);
-        }
+      
 
         @keyframes fadeInUp {
             from {
@@ -93,7 +89,6 @@
             width: 100px;
             height: 100px;
             object-fit: contain;
-            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -194,7 +189,7 @@
         .input-group input {
             width: 100%;
             padding: 14px 16px 14px 48px;
-            background: rgba(20, 20, 20, 0.9);
+            background: rgba(20, 20, 20, 0);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: #fff;
