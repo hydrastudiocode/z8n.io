@@ -5,6 +5,7 @@ import { addNewScript, updateScript, updateFilterState } from './modules/scripts
 import { initCodeMirror, initModalViewer, getContentEditor, getEditEditor } from './modules/editor-codemirror.js';
 import { setupExpandEditor } from './modules/editor-expand.js';
 import { showNotification } from './modules/ui-modal.js';
+import { initializeFavoritesForUser } from './modules/favorites.js';
 
 // ========== ESTADO DEL FILTRO ==========
 let currentCategory = 'all';
@@ -16,6 +17,7 @@ function init() {
     initFirestoreRefs();
     checkAuthAndRedirect();
     setupLogoutButton();
+    initializeFavoritesForUser(); // Inicializar favoritos por usuario
     
     // Editores
     initCodeMirror();

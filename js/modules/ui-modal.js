@@ -56,7 +56,7 @@ function closeViewModal() {
     document.getElementById('script-modal').style.display = 'none';
 }
 
-export function showScriptModal(id, script) {
+export async function showScriptModal(id, script) {
     currentScriptId = id;
     currentScriptData = script;  // ← Guardar los datos del script
     document.getElementById('modal-title').textContent = script.title;
@@ -112,14 +112,15 @@ export function showScriptModal(id, script) {
     
     const favStar = document.getElementById('modal-favorite-star');
     if (favStar) {
-        const updateFavoriteButton = (state) => {
+        const updateFavoriteButton = async (state) => {
             favStar.innerHTML = `${state ? '<i class="fas fa-star"></i> Favorito' : '<i class="far fa-star"></i> Favorito'}`;
             favStar.classList.toggle('active-favorite', state);
         };
 
-        updateFavoriteButton(isFavorite(id));
-        favStar.onclick = () => {
-            const newState = toggleFavorite(id);
+        const isFav = await isFavorite(id);
+        updateFavoriteButton(isFav);
+        favStar.onclick = async () => {
+            const newState = await toggleFavorite(id);
             updateFavoriteButton(newState);
         };
     }

@@ -7,5 +7,10 @@ service cloud.firestore {
       // Solo el dueño puede editar/eliminar
       allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
+
+    // Reglas para favoritos por usuario
+    match /userFavorites/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
   }
 }

@@ -114,12 +114,12 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-function createScriptElement(id, script) {
+async function createScriptElement(id, script) {
     const scriptElement = document.createElement('div');
     scriptElement.className = 'script-card';
     scriptElement.setAttribute('data-id', id);
     
-    const isFav = isFavorite(id);
+    const isFav = await isFavorite(id);
     const title = escapeHtml(script.title);
     const author = script.author ? escapeHtml(script.author) : 'Autor no especificado';
     const category = escapeHtml(script.category);
@@ -156,7 +156,6 @@ function createScriptElement(id, script) {
             icon.className = 'fa-solid fa-heart';
             favCornerBtn.title = 'Quitar de favoritos';
             // Animación de corazón rojo
-            showHeartAnimation(favCornerBtn);
         } else {
             icon.className = 'fa-regular fa-heart';
             favCornerBtn.title = 'Añadir a favoritos';
@@ -165,9 +164,9 @@ function createScriptElement(id, script) {
     
     // Botón Ver (ojo)
     const viewBtn = scriptElement.querySelector('.view-btn');
-    viewBtn.addEventListener('click', (e) => {
+    viewBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        showScriptModal(id, script);
+        await showScriptModal(id, script);
     });
     
     // Botón Copiar
@@ -185,8 +184,8 @@ function createScriptElement(id, script) {
     });
     
     // Hacer clic en la tarjeta abre el modal
-    scriptElement.addEventListener('click', () => {
-        showScriptModal(id, script);
+    scriptElement.addEventListener('click', async () => {
+        await showScriptModal(id, script);
     });
     
     return scriptElement;
@@ -219,17 +218,25 @@ export async function loadScripts(category = 'all', searchTerm = '', showFavorit
             scripts.push(script);
         });
         
-        scripts = scripts.filter(script => {
-            if (category !== 'all' && script.category !== category) return false;
-            if (showFavorites && !isFavorite(script.id)) return false;
-            if (searchTerm) {
+        // Filtrar scripts de forma asíncrona
+        const filteredScripts = [];
+        for (const script of scripts) {
+            let include = true;
+            
+            if (category !== 'all' && script.category !== category) include = false;
+            if (showFavorites && !(await isFavorite(script.id))) include = false;
+            
+            if (include && searchTerm) {
                 const term = searchTerm.toLowerCase();
-                return script.title.toLowerCase().includes(term) ||
-                       (script.author && script.author.toLowerCase().includes(term)) ||
-                       (script.content && script.content.toLowerCase().includes(term));
+                include = script.title.toLowerCase().includes(term) ||
+                         (script.author && script.author.toLowerCase().includes(term)) ||
+                         (script.content && script.content.toLowerCase().includes(term));
             }
-            return true;
-        });
+            
+            if (include) filteredScripts.push(script);
+        }
+        
+        scripts = filteredScripts;
         
         if (scripts.length === 0) {
             scriptsContainer.innerHTML = '<p class="empty-message">No hay scripts que coincidan</p>';
@@ -237,9 +244,10 @@ export async function loadScripts(category = 'all', searchTerm = '', showFavorit
         }
         
         scriptsContainer.innerHTML = '';
-        scripts.forEach(script => {
-            scriptsContainer.appendChild(createScriptElement(script.id, script));
-        });
+        for (const script of scripts) {
+            const element = await createScriptElement(script.id, script);
+            scriptsContainer.appendChild(element);
+        }
     } catch (error) {
         console.error('Error al cargar scripts:', error);
         const scriptsContainer = document.getElementById('scripts-container');
