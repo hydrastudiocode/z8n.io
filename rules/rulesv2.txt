@@ -1,13 +1,11 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Reglas SIMPLES - cualquier usuario autenticado puede hacer todo
     match /scripts/{document} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null;
-      // Solo el dueño puede editar/eliminar
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read, write: if request.auth != null;
     }
-
+    
     // Reglas para favoritos por usuario
     match /userFavorites/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;

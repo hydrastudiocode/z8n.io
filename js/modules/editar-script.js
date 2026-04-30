@@ -295,7 +295,7 @@ document.getElementById('edit-script-form').addEventListener('submit', async (e)
         await scriptsRef.doc(scriptId).update(updatedData);
         
         // Mostrar mensaje de éxito
-        showEditStatus('✅ Script actualizado correctamente', 'success');
+        showEditStatus('Script actualizado', 'success');
         
         // Cerrar modal después de éxito
         setTimeout(() => {
