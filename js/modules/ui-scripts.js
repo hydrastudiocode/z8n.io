@@ -20,11 +20,11 @@ function getLanguageLogo(language) {
         'Android': 'assets/android.svg', 'AndroidStudio': 'assets/androidstudio.svg', 'JSON': 'assets/json.svg',
         'DotEnv': 'assets/dotenv.svg', 'Apache': 'assets/apache.svg', 'Angular': 'assets/angular.svg',
         'Astro': 'assets/astro.svg', 'Blitz': 'assets/blitz.svg', 'Django': 'assets/django.svg',
-        'Microsoft-Net': 'assets/microsoft-dotnet.svg', 'FastApi': 'assets/fastapi.svg', 'Flutter': 'assets/flutter.svg',
+        'N8N': 'assets/n8n2.svg', 'FastApi': 'assets/fastapi.svg', 'Flutter': 'assets/flutter.svg',
         'Vue': 'assets/vue.svg', 'AssemblyScript': 'assets/assemblyscript.svg', 'Bash': 'assets/bash.svg',
         'Css-New': 'assets/css-new.svg', 'Dart': 'assets/dart.svg', 'Java': 'assets/java.svg', 'Kotlin': 'assets/kotlin.svg',
         'Ocaml': 'assets/ocaml.svg', 'Perl': 'assets/perl.svg', 'Powershell': 'assets/powershell.svg', 'Windows': 'assets/windows.svg',
-        'Ruby': 'assets/ruby.svg', 'SVG': 'assets/svg.svg', 'Cobol': 'assets/cobol.svg'
+        'Ruby': 'assets/ruby.svg', 'SVG': 'assets/svg.svg', 'Cobol': 'assets/cobol.svg', '.NET': 'assets/microsoft-dotnet.svg' 
     };
     return logos[language] || logos['Otro'];
 }

@@ -146,7 +146,7 @@ function setupFormSubmits() {
             try {
                 await updateScript(id, title, author, notes, category, content);
                 if (status) {
-                    status.textContent = '✅ Script actualizado correctamente';
+                    status.textContent = 'Script actualizado';
                     status.className = 'success';
                 }
                 loadScripts(currentCategory, '', isShowingFavorites);
@@ -157,7 +157,7 @@ function setupFormSubmits() {
             } catch (error) {
                 console.error('Error al actualizar:', error);
                 if (status) {
-                    status.textContent = '❌ Error al actualizar el script';
+                    status.textContent = 'Error al actualizar el script';
                     status.className = 'error';
                 }
             } finally {

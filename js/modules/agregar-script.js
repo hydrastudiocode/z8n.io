@@ -237,17 +237,17 @@ document.getElementById('add-script-form').addEventListener('submit', async (e) 
     
     // Validar campos requeridos
     if (!title) {
-        showAddStatus('❌ Por favor ingresa un título', 'error');
+        showAddStatus('Por favor ingresa un título', 'error');
         return;
     }
     
     if (!category) {
-        showAddStatus('❌ Por favor selecciona una categoría', 'error');
+        showAddStatus('Por favor selecciona una categoría', 'error');
         return;
     }
     
     if (!content || !content.trim()) {
-        showAddStatus('❌ Por favor ingresa el contenido del script', 'error');
+        showAddStatus('Por favor ingresa el contenido del script', 'error');
         return;
     }
     
@@ -282,7 +282,7 @@ document.getElementById('add-script-form').addEventListener('submit', async (e) 
         await scriptsRef.doc(scriptId).set(newScript);
         
         // Mostrar mensaje de éxito
-        showAddStatus('✅ Script agregado correctamente', 'success');
+        showAddStatus('Se agrego el Script', 'success');
         
         // Cerrar modal después de éxito
         setTimeout(() => {
@@ -306,12 +306,12 @@ document.getElementById('add-script-form').addEventListener('submit', async (e) 
     } catch (error) {
         console.error('Error al agregar:', error);
         
-        let errorMsg = '❌ Error al agregar el script';
+        let errorMsg = 'Error al agregar el script';
         if (error.message) {
             if (error.message.includes('permission')) {
-                errorMsg = '❌ Sin permisos para agregar scripts';
+                errorMsg = 'Sin permisos para agregar scripts';
             } else if (error.message.includes('network')) {
-                errorMsg = '❌ Error de red. Revisa tu conexión';
+                errorMsg = 'Error de red. Revisa tu conexión';
             }
         }
         

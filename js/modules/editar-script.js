@@ -251,7 +251,7 @@ document.getElementById('edit-script-form').addEventListener('submit', async (e)
     
     const scriptId = document.getElementById('edit-script-id').value;
     if (!scriptId) {
-        showEditStatus('❌ Error: ID del script no encontrado', 'error');
+        showEditStatus('Error: ID del script no encontrado', 'error');
         return;
     }
     
@@ -307,12 +307,12 @@ document.getElementById('edit-script-form').addEventListener('submit', async (e)
     } catch (error) {
         console.error('Error al actualizar:', error);
         
-        let errorMsg = '❌ Error al actualizar el script';
+        let errorMsg = 'Error al actualizar el script';
         if (error.message) {
             if (error.message.includes('permission')) {
-                errorMsg = '❌ Sin permisos para editar este script';
+                errorMsg = 'Sin permisos para editar este script';
             } else if (error.message.includes('network')) {
-                errorMsg = '❌ Error de red. Revisa tu conexión';
+                errorMsg = 'Error de red. Revisa tu conexión';
             }
         }
         
