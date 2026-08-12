@@ -106,7 +106,7 @@
             font-size: 28px;
             font-weight: 700;
             margin-top: 16px;
-            background: linear-gradient(135deg, #fe9002, #fec500, #dc2d00);
+            background: #fe9002;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -213,7 +213,7 @@
         .btn-primary {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #fe9002, #fec500);
+            background: #fe9002;
             border: none;
             border-radius: 12px;
             color: #000;
@@ -303,6 +303,7 @@
 
         .forgot-link a {
             color: #fe9002;
+            display: none;
             text-decoration: none;
             font-size: 14px;
             transition: color 0.2s;

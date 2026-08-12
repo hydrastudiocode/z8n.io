@@ -67,7 +67,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--bg-header);
+    background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
     padding: 0 1.5rem;
     height: var(--header-height);
     border-bottom: 1px solid var(--border-color);
@@ -109,7 +109,7 @@ header {
 .app-title {
     font-size: 1.1rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #fe9002 0%, #fec500 50%, #dc2d00 100%);
+    background: #fe9002;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -257,7 +257,7 @@ nav a.active {
    ============================================================ */
 .sidebar {
     width: var(--sidebar-width);
-    background: var(--bg-sidebar);
+    background: radial-gradient(circle, lab(9.49083% -.351779 -2.95578) 0%, lab(3.68927% -.135548 -1.17013) 100%);
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
