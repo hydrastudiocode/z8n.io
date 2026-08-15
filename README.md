@@ -18,8 +18,6 @@
 - 🎨 **Tema oscuro/claro** integrado
 - 💾 **Persistencia local** (localStorage) - sin servidores
 - 📦 **Exportación/Importación** de proyectos en JSON
-- 🖼️ **Exportación a imagen** (PNG, SVG)
-- 🎬 **Exportación a video** (WebM)
 - 🔍 **Búsqueda de nodos** en tiempo real
 - 🎯 **Nodos personalizados** configurables
 
