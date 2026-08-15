@@ -1,4 +1,5 @@
 # Z8N - Constructor de Flujos
+![Portada Z8N](portada1.png)
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green)
