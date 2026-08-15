@@ -23,7 +23,7 @@
 - 🔍 **Búsqueda de nodos** en tiempo real
 - 🎯 **Nodos personalizados** configurables
 
----
+![Portada Z8N](portada2.png)
 
 ## 🛠️ Tecnologías utilizadas
 
